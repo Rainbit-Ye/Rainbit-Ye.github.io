@@ -135,7 +135,7 @@
 <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; npcMessages.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (player.missionState == (<span class="built_in">int</span>)npcMessages[i].GetComponent&lt;NPCMessage&gt;().NpcType)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrowDis(npcMessages[i].transform);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="/../img/NPCArrow.gif" alt="菱形UI跟随NPC狐狸模型"></p>
-<p>大功告成！</p>
+<p>最终可以初步实现效果，但是代码还是过于简单粗暴，需要改进细化，并且在追踪识别NPC过程中会出现当玩家180度背对NPC时，UI追踪光标仍然会追踪到屏幕对应的位置。<br>先记录下来bug，会对其进行修改。</p>
 
                     
                       <div id="toc-article">
@@ -178,6 +178,15 @@
     </a>
   
   
+    <a href="/2023/06/02/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          Unity有限状态机
+        
+      </div>
+    </a>
+  
 </nav>
 
                         
@@ -205,6 +214,10 @@
       <ul>
         
           <li>
+            <a href="/2023/06/02/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/">Unity有限状态机</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/">U3D内屏幕UI光标实时跟踪NPC</a>
           </li>
         
@@ -227,7 +240,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">2</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">3</span></li></ul>
     </div>
   </div>
 

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Hexo</title>
+  <title>Unity有限状态机 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
   
@@ -76,8 +76,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  <article id="post-有限状态机" class="h-entry article article-type-post"
+        <section id="main"><article id="post-有限状态机" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -85,8 +84,8 @@
         <header class="article-header">
           
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/02/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/">Unity有限状态机</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      Unity有限状态机
     </h1>
   
 
@@ -101,8 +100,22 @@
 </span>
                   
                     
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
                           
 <a href="/2023/06/02/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
   
   <i class="fa fa-commt"></i>
   Guestbook
@@ -149,6 +162,18 @@
 <p>代码稍微进行过调整，相比之下增加了更多转换状态方法。<br>有限状态机和U3D的动画机相结合效率会更高，是很好用的方法。</p>
 
                     
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BA%94%E7%94%A8"><span class="toc-text">应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B"><span class="toc-text">实现过程</span></a></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
                         
                             
           </div>
@@ -164,151 +189,36 @@
                   </div>
                   
                     
-                          
-          </footer>
-  </div>
-</article>
-
-  <article id="post-U3D内屏幕UI光标实时跟踪NPC" class="h-entry article article-type-post"
-  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-      
-        <header class="article-header">
-          
+                      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/06/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/">U3D内屏幕UI光标实时跟踪NPC</a>
-    </h1>
-  
-
-
-        </header>
+    <a href="/2023/06/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
         
-          <div class="article-meta">
-            
-                <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-06-02T03:55:51.000Z" itemprop="datePublished">2023年06月02日</time>
-</span>
-                  
-                    
-                          
-<a href="/2023/06/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-          </div>
-          <div class="e-content article-entry" itemprop="articleBody">
-            
-                  <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在开发项目过程中，遇到需要实现根据当前事件来触发游戏UI的跟踪提示，从而指引玩家获得更好的游戏体验。<br>采用了相当简单粗暴的方式进行判断和实现</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (arrow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt; area.xMin &amp;&amp; screenPoint.x &lt; area.xMax &amp;&amp; screenPoint.y &gt; area.yMin &amp;&amp; screenPoint.y &lt; area.yMax)</span><br><span class="line">        arrow.position = screenPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过判断是否在UI屏幕的内部从而实现固定UI屏幕内。<br>其中<code>arrow</code>为光标指示UI，<code>area</code>为Rect类型，从而限定大小<br>通过判断屏幕周围8个区域的x，y值进行与光标指示UI进行比较，将UI固定在屏幕内。</p>
-<p>通过给NPC加入标签，开Star()函数中进行初始化，获取NPC的信息数据。在Update()中调用方法通过判定是否是当前图标所要追踪的NPC从而实现实时追踪</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    player = GameObject.FindWithTag(<span class="string">&quot;Player&quot;</span>).GetComponent&lt;PlayerMessage&gt;();</span><br><span class="line">    arrowImg = arrow.GetComponent&lt;Image&gt;();</span><br><span class="line">    npcMessages = GameObject.FindGameObjectsWithTag(<span class="string">&quot;NPC&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; npcMessages.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (player.missionState == (<span class="built_in">int</span>)npcMessages[i].GetComponent&lt;NPCMessage&gt;().NpcType)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrowDis(npcMessages[i].transform);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/../img/NPCArrow.gif" alt="菱形UI跟随NPC狐狸模型"></p>
-<p>最终可以初步实现效果，但是代码还是过于简单粗暴，需要改进细化，并且在追踪识别NPC过程中会出现当玩家180度背对NPC时，UI追踪光标仍然会追踪到屏幕对应的位置。<br>先记录下来bug，会对其进行修改。</p>
-
-                    
-                        
-                            
-          </div>
-          <footer class="article-footer">
-            
-                  <div class="article-tag-wrap">
-                    
-
-                      
-                        
-
-
-                  </div>
-                  
-                    
-                          
-          </footer>
-  </div>
-</article>
-
-  <article id="post-hello-world" class="h-entry article article-type-post"
-  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-      
-        <header class="article-header">
-          
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/05/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-
-        </header>
+          U3D内屏幕UI光标实时跟踪NPC
         
-          <div class="article-meta">
-            
-                <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-05-18T02:29:18.931Z" itemprop="datePublished">2023年05月18日</time>
-</span>
-                  
-                    
-                          
-<a href="/2023/05/18/hello-world/#comments" class="article-comment-link">
+      </div>
+    </a>
   
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
+  
+</nav>
 
-
-          </div>
-          <div class="e-content article-entry" itemprop="articleBody">
-            
-                  <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-                    
                         
-                            
-          </div>
-          <footer class="article-footer">
-            
-                  <div class="article-tag-wrap">
-                    
-
-                      
-                        
-
-
-                  </div>
-                  
-                    
                           
+                            
+
+
+
+
+
+
+
+
+                              
           </footer>
   </div>
-</article>
-
-
-</section>
+</article></section>
         
           <aside id="sidebar">
   
@@ -437,11 +347,29 @@
 
 
 
-
+  
+  
 
 
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
 
 
 
