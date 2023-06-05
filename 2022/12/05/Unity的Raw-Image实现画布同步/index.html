@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Unity内屏幕UI光标实时跟踪NPC | 当兵的纸兔子</title>
+  <title>Unity的Raw Image实现画布同步 | 当兵的纸兔子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
@@ -82,7 +82,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-U3D内屏幕UI光标实时跟踪NPC" class="h-entry article article-type-post"
+        <section id="main"><article id="post-Unity的Raw-Image实现画布同步" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -91,7 +91,7 @@
           
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Unity内屏幕UI光标实时跟踪NPC
+      Unity的Raw Image实现画布同步
     </h1>
   
 
@@ -102,7 +102,7 @@
             
                 <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-04-02T03:55:51.000Z" itemprop="datePublished">2023年04月02日</time>
+  <time class="dt-published" datetime="2022-12-05T00:56:15.000Z" itemprop="datePublished">2022年12月05日</time>
 </span>
                   
                     
@@ -115,7 +115,7 @@
 
                         
                           
-<a href="/2023/04/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/#comments" class="article-comment-link">
+<a href="/2022/12/05/Unity%E7%9A%84Raw-Image%E5%AE%9E%E7%8E%B0%E7%94%BB%E5%B8%83%E5%90%8C%E6%AD%A5/#comments" class="article-comment-link">
   
     
     
@@ -131,17 +131,17 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在开发项目过程中，遇到需要实现根据当前事件来触发游戏UI的跟踪提示，从而指引玩家获得更好的游戏体验。<br>采用了相当简单粗暴的方式进行判断和实现</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (arrow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt; area.xMin &amp;&amp; screenPoint.x &lt; area.xMax &amp;&amp; screenPoint.y &gt; area.yMin &amp;&amp; screenPoint.y &lt; area.yMax)</span><br><span class="line">        arrow.position = screenPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Unity中有一种UI组件是’Raw Image’，与Image组件相比<br>Raw Image不支持交互，可用于显示任何图片<br>一般用在背景、图标上,支持UV Rect(用来设置只显示图片的某一部分)<br>通常可以用于将3D物体转换为2D图片</p>
+<p>基于这样的特征理念，可以实现画布同步的效果<br>即 当我在unity打开画布进行绘制后，实时保存绘画信息。</p>
+<p>就像《饥饿派画家 Passpartout: The Starving Artist》中那样，可以将画好的绘制细节保留下来，同时不影响与其他事件产生的交互<br><img src="/../img/%E9%A5%A5%E9%A5%BF%E6%B4%BE%E7%94%BB%E5%AE%B6.jpg" alt="饥饿派画家游戏图"></p>
+<h3 id="设计实现"><a href="#设计实现" class="headerlink" title="设计实现"></a>设计实现</h3><p>启发来自于<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37179591/article/details/118148818?ops_request_misc=&request_id=&biz_id=102&utm_term=rawimage%E4%BD%BF%E7%94%A8%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%9E%8B&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-118148818.142%5Ev88%5Econtrol,239%5Ev2%5Einsert_chatgpt&spm=1018.2226.3001.4187">Unity中将3D模型显示在UI上或者显示在UI前面</a></p>
+<p>按照上述链接的流程，在Assets中创建一个<code>renderTextrue</code><br><img src="/../img/RawImage/rawimage0.png" alt="创建renderTexture"></p>
+<p>随后在<code>Hierarchy</code>中添加一个<code>RawImage</code>组件，放在场景的画板上<br>在<code>RawImage</code>组件的<code>Textrue</code>中将刚刚创建的<code>renderTextrue</code>拖上去</p>
+<p>在场景中单独创建一个<code>Canvas</code> 实现画笔绘画的操作代码<br>代码有参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uD4y197K7/?share_source=copy_web&vd_source=2cf49e9f6b04f274596d5dc37336cd1e">unity简单涂鸦制作</a></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Draw</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isOnUI())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Input.GetMouseButtonDown(<span class="number">0</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                GameObject cloneLine = Instantiate(originLine,line);</span><br><span class="line">                selfLine = cloneLine.GetComponent&lt;LineRenderer&gt;();</span><br><span class="line">                selfLine.SetColors(changeColor.lineColor, changeColor.lineColor);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (Input.GetMouseButton(<span class="number">0</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                Vector3 desPos = Input.mousePosition;</span><br><span class="line">                desPos.z = <span class="number">5</span>;</span><br><span class="line">                Vector3 worldPos = Camera.main.ScreenToWorldPoint(desPos);</span><br><span class="line">                posList.Add(worldPos);</span><br><span class="line">                selfLine.positionCount = posList.Count;</span><br><span class="line">                selfLine.SetPositions(posList.ToArray());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (Input.GetMouseButtonUp(<span class="number">0</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                posList.Clear();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>通过判断是否在UI屏幕的内部从而实现固定UI屏幕内。<br>其中<code>arrow</code>为光标指示UI，<code>area</code>为Rect类型，从而限定大小<br>通过判断屏幕周围8个区域的x，y值进行与光标指示UI进行比较，将UI固定在屏幕内。</p>
-<p>通过给NPC加入标签，开Star()函数中进行初始化，获取NPC的信息数据。在Update()中调用方法通过判定是否是当前图标所要追踪的NPC从而实现实时追踪</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    player = GameObject.FindWithTag(<span class="string">&quot;Player&quot;</span>).GetComponent&lt;PlayerMessage&gt;();</span><br><span class="line">    arrowImg = arrow.GetComponent&lt;Image&gt;();</span><br><span class="line">    npcMessages = GameObject.FindGameObjectsWithTag(<span class="string">&quot;NPC&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; npcMessages.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (player.missionState == (<span class="built_in">int</span>)npcMessages[i].GetComponent&lt;NPCMessage&gt;().NpcType)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrowDis(npcMessages[i].transform);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/../img/NPCArrow.gif" alt="菱形UI跟随NPC狐狸模型"></p>
-<p>最终可以初步实现效果，但是代码还是过于简单粗暴，需要改进细化，并且在追踪识别NPC过程中会出现当玩家180度背对NPC时，UI追踪光标仍然会追踪到屏幕对应的位置。<br>先记录下来bug，会对其进行修改。</p>
+<p>最终效果如下<br><img src="/../img/RawImage/yanshi.gif" alt="演示"></p>
+<p>收工~</p>
 
                     
                       <div id="toc-article">
@@ -149,7 +149,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82"><span class="toc-text">项目需求</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="toc-text">设计实现</span></a></li></ol></li></ol>
     </div>
   </div>
 
@@ -176,21 +176,21 @@
                       
 <nav id="article-nav">
   
-    <a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/09/18/RPG%E7%B1%BB%E6%B8%B8%E6%88%8F%E8%AF%BB%E5%8F%96%E5%AF%B9%E8%AF%9D%E6%96%87%E6%9C%AC/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">
         
-          立绘干货
+          RPG类游戏读取对话文本
         
       </div>
     </a>
   
   
-    <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">newer</strong>
       <div class="article-nav-title">
         
-          Unity Shader 模板测试 笼中窥梦
+          立绘干货
         
       </div>
     </a>
