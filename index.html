@@ -83,6 +83,72 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-VR中的三自由度-3dof-和六自由度-6dof" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/">VR中的三自由度(3dof)和六自由度(6dof)</a>
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-06-08T11:08:12.000Z" itemprop="datePublished">2023年06月08日</time>
+</span>
+                  
+                    
+                          
+<a href="/2023/06/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学校的专业课接触到了VR领域。对三自由度和六自由度这两个术语进行一些了解<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/248556100">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/93889988">参考资料2</a></p>
+<h3 id="自由度：解释了6个轴"><a href="#自由度：解释了6个轴" class="headerlink" title="自由度：解释了6个轴"></a>自由度：解释了6个轴</h3><p>“Dof” 代表 “自由度”。而前缀的数字代表要追踪多少个不同的轴</p>
+<p>物体可以在三维空间中移动的六个自由度(DOF)<br>六个自由度分别为：沿x轴平移，沿y轴平移，沿z轴平移，绕x轴转动，绕y轴转动，绕z轴转动<br>六个角度是(1)向前&#x2F;向后，(2)向上&#x2F;向下，(3)左&#x2F;右，(4)偏航，(5)俯仰和(6)滚动</p>
+<p><img src="/../img/dof/%E8%BD%B4.png" alt="轴向"></p>
+<p>自由度解释了六个轴，有三个主轴和三个辅助轴<br>其中 3dof的vr设备提供我们可以使用一组旋转或平移的设备<br>6dof的vr设备可以同时满足这两种情况</p>
+<h4 id="三自由度"><a href="#三自由度" class="headerlink" title="三自由度"></a>三自由度</h4><p>当使用允许3DOF的VR系统时，玩家的位置是固定的，无法在环境中进行走动<br>只能体验到3DOF中的自由度是偏航，俯仰和横滚。<br>这三个运动使用的是xyz轴的基本旋转</p>
+<h4 id="六自由度"><a href="#六自由度" class="headerlink" title="六自由度"></a>六自由度</h4><p>当使用允许6DOF的VR系统时，玩家可以在有限的空间内自由移动<br>可以充分利用所有的六个自由度：偏航，俯仰，侧倾，前&#x2F;后，上&#x2F;下，左&#x2F;右</p>
+
+                    
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VR/" rel="tag">VR</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                          
+          </footer>
+  </div>
+</article>
+
   <article id="post-Unity-Shader-模板检测-笼中窥梦" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
@@ -135,7 +201,7 @@
 <li>Stencil Test 模板测试</li>
 <li>Depth Test 深度测试</li>
 <li>Blending 混合</li>
-<li>Dithering 抖动</li>
+<li>Dithering 半调色彩</li>
 </ul>
 <p>以上进行的是逐片元操作</p>
 <hr>
@@ -377,7 +443,7 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Unity中有一种UI组件是’Raw Image’，与Image组件相比<br>Raw Image不支持交互，可用于显示任何图片<br>一般用在背景、图标上,支持UV Rect(用来设置只显示图片的某一部分)<br>通常可以用于将3D物体转换为2D图片</p>
+                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Unity中有一种UI组件是<code>Raw Image</code>，与Image组件相比<br>Raw Image不支持交互，可用于显示任何图片<br>一般用在背景、图标上,支持UV Rect(用来设置只显示图片的某一部分)<br>通常可以用于将3D物体转换为2D图片</p>
 <p>基于这样的特征理念，可以实现画布同步的效果<br>即 当我在unity打开画布进行绘制后，实时保存绘画信息。</p>
 <p>就像《饥饿派画家 Passpartout: The Starving Artist》中那样，可以将画好的绘制细节保留下来，同时不影响与其他事件产生的交互<br><img src="/../img/%E9%A5%A5%E9%A5%BF%E6%B4%BE%E7%94%BB%E5%AE%B6.jpg" alt="饥饿派画家游戏图"></p>
 <h3 id="设计实现"><a href="#设计实现" class="headerlink" title="设计实现"></a>设计实现</h3><p>启发来自于<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37179591/article/details/118148818?ops_request_misc=&request_id=&biz_id=102&utm_term=rawimage%E4%BD%BF%E7%94%A8%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%9E%8B&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-118148818.142%5Ev88%5Econtrol,239%5Ev2%5Einsert_chatgpt&spm=1018.2226.3001.4187">Unity中将3D模型显示在UI上或者显示在UI前面</a></p>
@@ -675,6 +741,10 @@
       <ul>
         
           <li>
+            <a href="/2023/06/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/">VR中的三自由度(3dof)和六自由度(6dof)</a>
+          </li>
+        
+          <li>
             <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/">Unity Shader 模板测试 笼中窥梦</a>
           </li>
         
@@ -690,10 +760,6 @@
             <a href="/2022/12/05/Unity%E7%9A%84Raw-Image%E5%AE%9E%E7%8E%B0%E7%94%BB%E5%B8%83%E5%90%8C%E6%AD%A5/">Unity的Raw Image实现画布同步</a>
           </li>
         
-          <li>
-            <a href="/2022/09/18/RPG%E7%B1%BB%E6%B8%B8%E6%88%8F%E8%AF%BB%E5%8F%96%E5%AF%B9%E8%AF%9D%E6%96%87%E6%9C%AC/">RPG类游戏读取对话文本</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -704,7 +770,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 10px;">Unity Shader</a>
+      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 10px;">Unity Shader</a> <a href="/tags/VR/" style="font-size: 10px;">VR</a>
     </div>
   </div>
 
@@ -716,7 +782,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -726,7 +792,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/VR/" rel="tag">VR</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
