@@ -83,6 +83,81 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Unity-ShaderGraph-实现星星闪烁特效" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-06-30T13:38:09.000Z" itemprop="datePublished">2023年06月30日</time>
+</span>
+                  
+                    
+                          
+<a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <p>最近在学习Unity的粒子特效效果，跟着网上的教程用<code>ShaderGraph</code>复现了一下。<br>教程中用到的是Unity ASE<br>Bilibili教程链接：<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kg411P793/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Unity ASE 收缩星星Shader教程</a></p>
+<h2 id="流程思路"><a href="#流程思路" class="headerlink" title="流程思路"></a>流程思路</h2><p>思路：通过对UV进行一系列操作，获取到一个非黑即白的型星型图案</p>
+<p>获取UV的R通道和G通道的值，利用<code>Blend</code>结点中的差异<code>difference</code>效果得到星星的一个对角线（反方向对角线同理）<br>随后进行颜色减淡处理，增强效果。</p>
+<ul>
+<li>difference原理：计算黑色与白色的差异，假设1为白色，0为黑色。黑色和黑色差异为0，黑色与白色差异为1<br><img src="/../img/star/dif.png" alt="difference差异过程"></li>
+<li>dodge原理：<code>saturate( ( y/ max( 1.0 - x, 0. 00001 ) ) ).xxxx</code></li>
+<li>其中 saturate(x)：如果x取值小于0，则返回值为0。如果x取值大于1，则返回值为1。若x在0到1之间，则直接返回x的值。<br><img src="/../img/star/dodge.png" alt="dodge差异过程"></li>
+</ul>
+<p>获得到初步的星型的图像后，利用<code>Step</code>结点进行取整，获得只有0或1的图像信息。</p>
+<p><img src="/../img/star/step.png" alt="Step运算"><br>获取边框和内部两部分，边框的获取便是将原始图像增大部分的范围，与原始图像进行减法运算，获取边框部分。<br>对边框和原始图像内部进行相加，赋予颜色，得到星星效果</p>
+<p><img src="/../img/star/re0.png" alt="结果"></p>
+<p>与Unity中的粒子效果相结合，通过调整粒子效果相关参数以及自定义参数</p>
+<p><img src="/../img/star/0.gif" alt="效果图"></p>
+<p>在进行dedge处理后，通过增加一步取整，可以获得直角星星。</p>
+<p><img src="/../img/star/zhijiao.png" alt="直角星星"><br><img src="/../img/star/z.gif" alt="直角星星效果图"></p>
+<p>ShaderGraph的下载链接<a target="_blank" rel="noopener" href="https://github.com/Rainbit-Ye/Star">https://github.com/Rainbit-Ye/Star</a></p>
+
+                    
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                          
+          </footer>
+  </div>
+</article>
+
   <article id="post-KNN算法" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
@@ -829,6 +904,10 @@
       <ul>
         
           <li>
+            <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
+          </li>
+        
+          <li>
             <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/">KNN算法</a>
           </li>
         
@@ -844,10 +923,6 @@
             <a href="/2023/04/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/">Unity内屏幕UI光标实时跟踪NPC</a>
           </li>
         
-          <li>
-            <a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/">立绘干货</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -858,7 +933,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 10px;">Unity Shader</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
+      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
     </div>
   </div>
 
@@ -870,7 +945,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -880,7 +955,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 

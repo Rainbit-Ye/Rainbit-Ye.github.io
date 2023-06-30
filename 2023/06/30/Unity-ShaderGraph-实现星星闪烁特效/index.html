@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Hello World | 当兵的纸兔子</title>
+  <title>Unity ShaderGraph 实现星星闪烁特效 | 当兵的纸兔子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
@@ -82,7 +82,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="h-entry article article-type-post"
+        <section id="main"><article id="post-Unity-ShaderGraph-实现星星闪烁特效" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -91,7 +91,7 @@
           
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Hello World
+      Unity ShaderGraph 实现星星闪烁特效
     </h1>
   
 
@@ -102,7 +102,7 @@
             
                 <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2022-02-07T09:54:22.000Z" itemprop="datePublished">2022年02月07日</time>
+  <time class="dt-published" datetime="2023-06-30T13:38:09.000Z" itemprop="datePublished">2023年06月30日</time>
 </span>
                   
                     
@@ -115,7 +115,7 @@
 
                         
                           
-<a href="/2022/02/07/hello-world/#comments" class="article-comment-link">
+<a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/#comments" class="article-comment-link">
   
     
     
@@ -131,21 +131,22 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>初次接触Markdown和hexo，记录一下指令用法</p>
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><p>创建一个新的Post</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><p>也可以用<code>hexo s</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                  <p>最近在学习Unity的粒子特效效果，跟着网上的教程用<code>ShaderGraph</code>复现了一下。<br>教程中用到的是Unity ASE<br>Bilibili教程链接：<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kg411P793/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Unity ASE 收缩星星Shader教程</a></p>
+<h2 id="流程思路"><a href="#流程思路" class="headerlink" title="流程思路"></a>流程思路</h2><p>思路：通过对UV进行一系列操作，获取到一个非黑即白的型星型图案</p>
+<p>获取UV的R通道和G通道的值，利用<code>Blend</code>结点中的差异<code>difference</code>效果得到星星的一个对角线（反方向对角线同理）<br>随后进行颜色减淡处理，增强效果。</p>
+<ul>
+<li>difference原理：计算黑色与白色的差异，假设1为白色，0为黑色。黑色和黑色差异为0，黑色与白色差异为1<br><img src="/../img/star/dif.png" alt="difference差异过程"></li>
+<li>dodge原理：<code>saturate( ( y/ max( 1.0 - x, 0. 00001 ) ) ).xxxx</code></li>
+<li>其中 saturate(x)：如果x取值小于0，则返回值为0。如果x取值大于1，则返回值为1。若x在0到1之间，则直接返回x的值。<br><img src="/../img/star/dodge.png" alt="dodge差异过程"></li>
+</ul>
+<p>获得到初步的星型的图像后，利用<code>Step</code>结点进行取整，获得只有0或1的图像信息。</p>
+<p><img src="/../img/star/step.png" alt="Step运算"><br>获取边框和内部两部分，边框的获取便是将原始图像增大部分的范围，与原始图像进行减法运算，获取边框部分。<br>对边框和原始图像内部进行相加，赋予颜色，得到星星效果</p>
+<p><img src="/../img/star/re0.png" alt="结果"></p>
+<p>与Unity中的粒子效果相结合，通过调整粒子效果相关参数以及自定义参数</p>
+<p><img src="/../img/star/0.gif" alt="效果图"></p>
+<p>在进行dedge处理后，通过增加一步取整，可以获得直角星星。</p>
+<p><img src="/../img/star/zhijiao.png" alt="直角星星"><br><img src="/../img/star/z.gif" alt="直角星星效果图"></p>
+<p>ShaderGraph的下载链接<a target="_blank" rel="noopener" href="https://github.com/Rainbit-Ye/Star">https://github.com/Rainbit-Ye/Star</a></p>
 
                     
                       <div id="toc-article">
@@ -153,7 +154,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld"><span class="toc-text">HelloWorld</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF"><span class="toc-text">流程思路</span></a></li></ol>
     </div>
   </div>
 
@@ -169,6 +170,8 @@
                     
 
                       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a></li></ul>
+
                         
 
 
@@ -178,15 +181,15 @@
                       
 <nav id="article-nav">
   
-  
-    <a href="/2022/05/07/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">newer</strong>
+    <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">
         
-          Unity有限状态机
+          KNN算法
         
       </div>
     </a>
+  
   
 </nav>
 
