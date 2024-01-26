@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Unity内屏幕UI光标实时跟踪NPC | 当兵的纸兔子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="当兵的纸兔子" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">当兵的纸兔子</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">多才多艺而非不顾正业</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-U3D内屏幕UI光标实时跟踪NPC" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Unity内屏幕UI光标实时跟踪NPC
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-04-02T03:55:51.000Z" itemprop="datePublished">2023年04月02日</time>
+</span>
+                  
+                    
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
+                          
+<a href="/2023/04/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在开发项目过程中，遇到需要实现根据当前事件来触发游戏UI的跟踪提示，从而指引玩家获得更好的游戏体验。<br>采用了相当简单粗暴的方式进行判断和实现</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (arrow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt; area.xMin &amp;&amp; screenPoint.x &lt; area.xMax &amp;&amp; screenPoint.y &gt; area.yMin &amp;&amp; screenPoint.y &lt; area.yMax)</span><br><span class="line">        arrow.position = screenPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过判断是否在UI屏幕的内部从而实现固定UI屏幕内。<br>其中<code>arrow</code>为光标指示UI，<code>area</code>为Rect类型，从而限定大小<br>通过判断屏幕周围8个区域的x，y值进行与光标指示UI进行比较，将UI固定在屏幕内。</p>
+<p>通过给NPC加入标签，开Star()函数中进行初始化，获取NPC的信息数据。在Update()中调用方法通过判定是否是当前图标所要追踪的NPC从而实现实时追踪</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    player = GameObject.FindWithTag(<span class="string">&quot;Player&quot;</span>).GetComponent&lt;PlayerMessage&gt;();</span><br><span class="line">    arrowImg = arrow.GetComponent&lt;Image&gt;();</span><br><span class="line">    npcMessages = GameObject.FindGameObjectsWithTag(<span class="string">&quot;NPC&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; npcMessages.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (player.missionState == (<span class="built_in">int</span>)npcMessages[i].GetComponent&lt;NPCMessage&gt;().NpcType)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrowDis(npcMessages[i].transform);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/NPCArrow.gif" alt="菱形UI跟随NPC狐狸模型"></p>
+<p>最终可以初步实现效果，但是代码还是过于简单粗暴，需要改进细化，并且在追踪识别NPC过程中会出现当玩家180度背对NPC时，UI追踪光标仍然会追踪到屏幕对应的位置。<br>先记录下来bug，会对其进行修改。</p>
+
+                    
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82"><span class="toc-text">项目需求</span></a></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                      
+<nav id="article-nav">
+  
+    <a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          立绘干货
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          Unity Shader 模板测试 笼中窥梦
+        
+      </div>
+    </a>
+  
+</nav>
+
+                        
+                          
+                            
+
+
+
+
+
+
+
+
+                              
+          </footer>
+  </div>
+</article></section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Unity Shader基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/">KNN算法</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/">VR中的三自由度(3dof)和六自由度(6dof)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/">Unity Shader 模板测试 笼中窥梦</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2024 Rainbit.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>

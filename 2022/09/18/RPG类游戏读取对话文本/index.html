@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>RPG类游戏读取对话文本 | 当兵的纸兔子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="当兵的纸兔子" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">当兵的纸兔子</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">多才多艺而非不顾正业</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-RPG类游戏读取对话文本" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      RPG类游戏读取对话文本
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2022-09-18T14:11:50.000Z" itemprop="datePublished">2022年09月18日</time>
+</span>
+                  
+                    
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
+                          
+<a href="/2022/09/18/RPG%E7%B1%BB%E6%B8%B8%E6%88%8F%E8%AF%BB%E5%8F%96%E5%AF%B9%E8%AF%9D%E6%96%87%E6%9C%AC/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在最近开发的游戏项目中需要涉及到大量的NPC文字对话，在网上查到的对话方式大多都是用打字机或者Text的组件列表<br>将文字预先写好在NPC的组件下面，但由于这次的项目大概有那么50到60个NPC，如果按以前的方法一个个组件挂起打字预设那么太过于繁琐了<br>于是我设计了一个文本读取的方式，只需要把文本放在txt文件中，根据事件编号进行自动判断和读取<br>实现思路如下：</p>
+<ul>
+<li>首先需要两个符号位进行判断编号的开始，选择采用<code>--</code>进行分割</li>
+<li>其次要考虑到在与NPC进行对话过程中，会有相应的特殊事件发生。（例如游戏中常见的隐藏任务等）</li>
+<li>NPC在结束对话内容后需要一个符号位进行判断结束，故选择采用<code>()</code>进行分割</li>
+</ul>
+<p>样例设计如下</p>
+<blockquote>
+<p>-0-0-0-<br>这是一个RPG类游戏<br>很高兴认识你！我是Rainbit！</p>
+</blockquote>
+<p>其中第一位表示开始对话的编号，第二位表示事件对话的编号，第三位表示结束的编号</p>
+<p>既然设计完成，那么开始代码实现！！</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>首先是将txt文本读入</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//采用直接将txt文本拖入的方式相对快捷，但是不推荐使用。</span></span><br><span class="line"><span class="keyword">public</span> TextAsset textAsset;<span class="comment">//txt文本</span></span><br><span class="line"><span class="built_in">string</span>[] lineData;<span class="comment">//存放文本段落数组</span></span><br><span class="line"><span class="keyword">public</span> <span class="built_in">string</span> npcNum;<span class="comment">//npc对话开始编号</span></span><br><span class="line"><span class="built_in">string</span> conversationContent=<span class="literal">null</span>;<span class="comment">//对话内容</span></span><br><span class="line"><span class="built_in">int</span> indexNum = <span class="number">0</span>;<span class="comment">//标记参数</span></span><br><span class="line"><span class="built_in">int</span> startNum;<span class="comment">//开始编号信息</span></span><br><span class="line"><span class="built_in">int</span> endNum;<span class="comment">//结束编号信息</span></span><br><span class="line"><span class="built_in">int</span> eventNum;<span class="comment">//事件编号信息</span></span><br></pre></td></tr></table></figure>
+
+<p>通过换行符判断将txt文本中的每一行文字提取出来，放进lineData数组中</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ReadTask</span>(<span class="params">TextAsset textAsset</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    lineData = textAsset.text.Split(<span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据NPC的对话开始编号进行查找对应的对话信息，FirstTask内的<code>npcNum</code>便是脚本上所需挂载的NPC对话开始编号信息<br>附上编号读取以及文字读取代码</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">FindTask</span>(<span class="params"><span class="built_in">int</span> npcStartNum</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; lineData.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (lineData[i].StartsWith(npcStartNum.ToString()))<span class="comment">//找到对应开始语句</span></span><br><span class="line">        &#123;</span><br><span class="line">            indexNum = i;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> temp = lineData[indexNum].Split(<span class="string">&#x27;-&#x27;</span>);</span><br><span class="line">    startNum = <span class="built_in">int</span>.Parse(temp[<span class="number">0</span>]);</span><br><span class="line">    endNum = <span class="built_in">int</span>.Parse(temp[<span class="number">2</span>]);</span><br><span class="line">    eventNum = <span class="built_in">int</span>.Parse(temp[<span class="number">3</span>]);</span><br><span class="line">    ReadConversation();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">ReadConversation</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">int</span> length = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (lineData[indexNum + length + <span class="number">1</span>].StartsWith(<span class="string">&quot;\&quot;&quot;</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            length++;</span><br><span class="line">            conversationContent = lineData[indexNum + length]</span><br><span class="line">            Debug.Log(<span class="string">&quot;UI显示的文字：&quot;</span> + conversationContent);</span><br><span class="line">            <span class="keyword">if</span> (eventNum != <span class="number">0</span>)</span><br><span class="line">                EventNum();<span class="comment">//进行事件触发</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            startNum = endNum;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后把上述方法放在Start和Update函数中</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    ReadTask(textAsset);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    FindTask(currentlyDisplayedNum);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/NPC%E5%AF%B9%E8%AF%9D.gif" alt="NPC可以进行对话，并且通过脚本读取文本信息"></p>
+<p>完成收工~</p>
+
+                    
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82"><span class="toc-text">项目需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">代码实现</span></a></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                      
+<nav id="article-nav">
+  
+    <a href="/2022/05/07/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          Unity有限状态机
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/12/05/Unity%E7%9A%84Raw-Image%E5%AE%9E%E7%8E%B0%E7%94%BB%E5%B8%83%E5%90%8C%E6%AD%A5/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          Unity的Raw Image实现画布同步
+        
+      </div>
+    </a>
+  
+</nav>
+
+                        
+                          
+                            
+
+
+
+
+
+
+
+
+                              
+          </footer>
+  </div>
+</article></section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Unity Shader基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/">KNN算法</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/">VR中的三自由度(3dof)和六自由度(6dof)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/">Unity Shader 模板测试 笼中窥梦</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2024 Rainbit.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>

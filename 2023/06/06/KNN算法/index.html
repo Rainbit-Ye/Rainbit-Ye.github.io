@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>KNN算法 | 当兵的纸兔子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="当兵的纸兔子" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">当兵的纸兔子</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">多才多艺而非不顾正业</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-KNN算法" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      KNN算法
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-06-06T04:31:34.000Z" itemprop="datePublished">2023年06月06日</time>
+</span>
+                  
+                    
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
+                          
+<a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343657182">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45453761">参考资料2</a></p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><code>k 近邻法 (k-nearest neighbor, k-NN)</code> 是一种基本分类与回归方法。是数据挖掘技术中原理最简单的算法之一，核心功能是解决有监督的分类问题。KNN能够快速高效地解决建立在特殊数据集上的预测分类问题，但其不产生模型，因此算法准确性并不具备强可推广性。</p>
+<p>KNN算法的思想：对于任意n维输入向量，分别对应于特征空间中的一个点，输出为该特征向量所对应的类别标签或预测值。</p>
+<p>KNN分类算法的分类预测过程十分简单并容易理解：对于一个需要预测的输入向量x，我们只需要在训练数据集中寻找k个与向量x最近的向量的集合，然后把x的类别预测为这k个样本中类别数最多的那一类。</p>
+<p>我个人的理解是计算需要预测的向量与其他向量的之间的距离，根据距离来判断需要预测的向量的类别。</p>
+<p><img src="/../img/KNN/KNN.png" alt="KNN算法示意图"></p>
+<h2 id="算法设计思路"><a href="#算法设计思路" class="headerlink" title="算法设计思路"></a>算法设计思路</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16h411r75w/?share_source=copy_web&vd_source=2cf49e9f6b04f274596d5dc37336cd1e">KNN算法的python实现</a></p>
+<blockquote>
+<p>写一个数据集函数，返回x，y<br>写KNN函数，进行分类</p>
+<ul>
+<li>计算距离：采用欧氏距离</li>
+<li>排序，对数据进行排序，返回排序前所在的位置索引</li>
+<li>创建字典进行初始化</li>
+<li>统计表决，并进行排序</li>
+</ul>
+<p>测试</p>
+</blockquote>
+<h2 id="KNN的局限性"><a href="#KNN的局限性" class="headerlink" title="KNN的局限性"></a>KNN的局限性</h2><p>优点：精度高，对异常值不敏感，无数据输入假定<br>缺点：计算复杂度高，空间复杂度高</p>
+<h2 id="KNN算法的Pyton实现"><a href="#KNN算法的Pyton实现" class="headerlink" title="KNN算法的Pyton实现"></a>KNN算法的Pyton实现</h2><p>在以下简单算法实现中，例举了属于爱情片（LOVE）或是动作片（ACT）的两组数值<br>其中设定k为3</p>
+<p><img src="/../img/KNN/a233291d5c84fdd48bfc0e7f6906cd3.png" alt="样例"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">DataSet</span>():</span><br><span class="line">    group = np.array([[<span class="number">3</span>, <span class="number">104</span>], [<span class="number">2</span>, <span class="number">100</span>], [<span class="number">1</span>, <span class="number">81</span>], [<span class="number">101</span>, <span class="number">10</span>], [<span class="number">99</span>, <span class="number">5</span>], [<span class="number">98</span>, <span class="number">2</span>]])</span><br><span class="line">    labels = [<span class="string">&quot;LOVE&quot;</span>, <span class="string">&quot;LOVE&quot;</span>, <span class="string">&quot;LOVE&quot;</span>, <span class="string">&quot;ACT&quot;</span>, <span class="string">&quot;ACT&quot;</span>, <span class="string">&quot;ACT&quot;</span>]</span><br><span class="line">    <span class="keyword">return</span> group, labels</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">KNN</span>(<span class="params">in_x, x_labels, y_labels, k</span>):</span><br><span class="line">    x_labels_size = x_labels.shape[<span class="number">0</span>]  <span class="comment"># 访问行数</span></span><br><span class="line">    distance = (</span><br><span class="line">        np.tile(in_x, (x_labels_size, <span class="number">1</span>)) - x_labels</span><br><span class="line">    ) ** <span class="number">2</span>  <span class="comment"># 将in_x转换为与np数组一样的数组，进行相减后求差</span></span><br><span class="line">    ad_distance = distance.<span class="built_in">sum</span>(axis=<span class="number">1</span>)  <span class="comment"># axis为0是按行相加，1是按列相加</span></span><br><span class="line">    sq_distance = ad_distance**<span class="number">0.5</span>  <span class="comment"># 得到欧氏距离</span></span><br><span class="line">    ed_distance = sq_distance.argsort()  <span class="comment"># 进行升序排序，返回的是(排序前)距离的索引</span></span><br><span class="line">    classdict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(k):</span><br><span class="line">        voteI_label = y_labels[ed_distance[i]]</span><br><span class="line">        classdict[voteI_label] = classdict.get(voteI_label, <span class="number">0</span>) + <span class="number">1</span>  <span class="comment"># 类型统计计数</span></span><br><span class="line">    sort_classdict = <span class="built_in">sorted</span>(classdict.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sort_classdict[<span class="number">0</span>][<span class="number">0</span>]  <span class="comment"># 访问k中最多的类别，即 要预测的类别</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    group, labels = DataSet()</span><br><span class="line">    test_x = [<span class="number">18</span>, <span class="number">90</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;TYPE:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(KNN(test_x, group, labels, <span class="number">3</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>TYPE：LOVE</p>
+</blockquote>
+<p>最终可以正常输出预测出需要测试的影片的类别</p>
+
+                    
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="toc-text">算法设计思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KNN%E7%9A%84%E5%B1%80%E9%99%90%E6%80%A7"><span class="toc-text">KNN的局限性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KNN%E7%AE%97%E6%B3%95%E7%9A%84Pyton%E5%AE%9E%E7%8E%B0"><span class="toc-text">KNN算法的Pyton实现</span></a></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                      
+<nav id="article-nav">
+  
+    <a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          VR中的三自由度(3dof)和六自由度(6dof)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          Unity ShaderGraph 实现星星闪烁特效
+        
+      </div>
+    </a>
+  
+</nav>
+
+                        
+                          
+                            
+
+
+
+
+
+
+
+
+                              
+          </footer>
+  </div>
+</article></section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Unity Shader基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/">KNN算法</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/">VR中的三自由度(3dof)和六自由度(6dof)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/">Unity Shader 模板测试 笼中窥梦</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2024 Rainbit.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>

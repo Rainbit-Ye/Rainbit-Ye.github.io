@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>VR中的三自由度(3dof)和六自由度(6dof) | 当兵的纸兔子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="当兵的纸兔子" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">当兵的纸兔子</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">多才多艺而非不顾正业</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-VR中的三自由度-3dof-和六自由度-6dof" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      VR中的三自由度(3dof)和六自由度(6dof)
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2023-05-08T11:08:12.000Z" itemprop="datePublished">2023年05月08日</time>
+</span>
+                  
+                    
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
+                          
+<a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学校的专业课接触到了VR领域。对三自由度和六自由度这两个术语进行一些了解<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/248556100">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/93889988">参考资料2</a></p>
+<p>当谈及VR中的移动方式和定位模式，人们总是会提到一个词叫「自由度」或者「DOF」<br>即Degree of Freedom的简称。</p>
+<h3 id="自由度：解释了6个轴"><a href="#自由度：解释了6个轴" class="headerlink" title="自由度：解释了6个轴"></a>自由度：解释了6个轴</h3><p>“Dof” 代表 “自由度”。而前缀的数字代表要追踪多少个不同的轴</p>
+<p>物体可以在三维空间中移动的六个自由度(DOF)<br>六个自由度分别为：沿x轴平移，沿y轴平移，沿z轴平移，绕x轴转动，绕y轴转动，绕z轴转动<br>六个角度是(1)向前&#x2F;向后，(2)向上&#x2F;向下，(3)左&#x2F;右，(4)偏航，(5)俯仰和(6)滚动</p>
+<p><img src="/../img/dof/%E8%BD%B4.png" alt="轴向"></p>
+<p>自由度解释了六个轴，有三个主轴和三个辅助轴<br>其中 3dof的vr设备提供我们可以使用一组旋转或平移的设备<br>6dof的vr设备可以同时满足这两种情况</p>
+<h4 id="三自由度"><a href="#三自由度" class="headerlink" title="三自由度"></a>三自由度</h4><p>当使用允许3DOF的VR系统时，玩家的位置是固定的，无法在环境中进行走动<br>只能体验到3DOF中的自由度是偏航，俯仰和横滚。<br>这三个运动使用的是xyz轴的基本旋转</p>
+<h4 id="六自由度"><a href="#六自由度" class="headerlink" title="六自由度"></a>六自由度</h4><p>当使用允许6DOF的VR系统时，玩家可以在有限的空间内自由移动<br>可以充分利用所有的六个自由度：偏航，俯仰，侧倾，前&#x2F;后，上&#x2F;下，左&#x2F;右</p>
+<h2 id="自由度的用处"><a href="#自由度的用处" class="headerlink" title="自由度的用处"></a>自由度的用处</h2><p>自由度越高，或DOF数越大，即在VR体验中，用户本体能被系统定位到、且映射到虚拟世界里的的运动模式越多。对VR有所耳闻的读者都可能听过「6DOF」和「3DOF」这两个词（即6自由度和3自由度）。3DOF的头显只能定位用户头部的本地运动（XYZ三轴旋转，即俯仰、偏航、滚动）；而6DOF的头显在此基础上还能定位用户在空间XYZ方向上的移动，即空间坐标位置的改变。下方的GIF图就展示了6DOF和3DOF的区别。</p>
+<p><img src="/../img/dof/6637e50652c61f5f62d390a7b1fa477f.gif" alt="6DOF和3DOF的区别"></p>
+
+                    
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E7%94%B1%E5%BA%A6%EF%BC%9A%E8%A7%A3%E9%87%8A%E4%BA%866%E4%B8%AA%E8%BD%B4"><span class="toc-text">自由度：解释了6个轴</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6"><span class="toc-text">三自由度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6"><span class="toc-text">六自由度</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E7%94%B1%E5%BA%A6%E7%9A%84%E7%94%A8%E5%A4%84"><span class="toc-text">自由度的用处</span></a></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                      
+<nav id="article-nav">
+  
+    <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          Unity Shader 模板测试 笼中窥梦
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          KNN算法
+        
+      </div>
+    </a>
+  
+</nav>
+
+                        
+                          
+                            
+
+
+
+
+
+
+
+
+                              
+          </footer>
+  </div>
+</article></section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Unity Shader基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
+          </li>
+        
+          <li>
+            <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/">KNN算法</a>
+          </li>
+        
+          <li>
+            <a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/">VR中的三自由度(3dof)和六自由度(6dof)</a>
+          </li>
+        
+          <li>
+            <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/">Unity Shader 模板测试 笼中窥梦</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" style="font-size: 10px;">机器学习</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" rel="tag">机器学习</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2024 Rainbit.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</body>
+</html>
