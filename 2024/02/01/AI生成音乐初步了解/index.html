@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Hello World | 当兵的纸兔子</title>
+  <title>AI生成音乐初步了解 | 当兵的纸兔子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
@@ -82,7 +82,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="h-entry article article-type-post"
+        <section id="main"><article id="post-AI生成音乐初步了解" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -91,7 +91,7 @@
           
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Hello World
+      AI生成音乐初步了解
     </h1>
   
 
@@ -102,7 +102,7 @@
             
                 <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2022-02-07T09:54:22.000Z" itemprop="datePublished">2022年02月07日</time>
+  <time class="dt-published" datetime="2024-02-01T13:18:31.000Z" itemprop="datePublished">2024年02月01日</time>
 </span>
                   
                     
@@ -115,7 +115,7 @@
 
                         
                           
-<a href="/2022/02/07/hello-world/#comments" class="article-comment-link">
+<a href="/2024/02/01/AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/#comments" class="article-comment-link">
   
     
     
@@ -131,21 +131,49 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>初次接触Markdown和hexo，记录一下指令用法</p>
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><p>创建一个新的Post</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><p>也可以用<code>hexo s</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                  <p>对文献 <em>MUSIC COMPOSITION WITH DEEP LEARNING: A REVIEW</em> 的一些整理</p>
+<h2 id="AI生成音乐应用"><a href="#AI生成音乐应用" class="headerlink" title="AI生成音乐应用"></a>AI生成音乐应用</h2><ul>
+<li>辅助音乐人创作音乐。提供灵感</li>
+<li>可以为电影、游戏和广告等媒体制作配乐。它可以根据场景的氛围和情绪自动生成适合的音乐片段，提供定制化的配乐解决方案</li>
+<li>AI音乐生成可以作为学习和教学工具，帮助音乐学生练习和改进技巧</li>
+<li>降低创作音乐的入门门槛。</li>
+</ul>
+<h2 id="AI生成音乐的发展"><a href="#AI生成音乐的发展" class="headerlink" title="AI生成音乐的发展"></a>AI生成音乐的发展</h2><p><strong>短旋律生成</strong></p>
+<ul>
+<li>在1980-2000年时，人们开始对其进行研究，使用的是神经网络方法（Neural network）</li>
+<li>近些年来基于NN框架的深度学习模型广泛应用于AI生成音乐。</li>
+<li>现在音乐创作从大规模自然语言处理（Natural Language Processing）如Transformer等模型中获取NN架构[1]</li>
+<li>2016年使用RNN生成短旋律</li>
+<li>2018年 MusicVAE 是基于 VAE 的音乐生成模型。可以通过在潜在空间中进行插值来生成音乐</li>
+<li>2019年使用Transformer进行音乐生成，可以生成更长的旋律，但几小节后会出现明显的节奏紊乱</li>
+</ul>
+<p><strong>在基于计算机的音乐创作中，可以从多乐器或多轨音乐中对乐器和编排概念进行分组。</strong></p>
+<ul>
+<li>2017 年提出多轨音乐生成 最著名的模型是 MuseGAN</li>
+<li>2020 年晚些时候基于的其他模型发布了如 MusAE 之类的自动编码器</li>
+<li>2021 年使用Transformer进行多轨音乐的生成。</li>
+</ul>
+<h2 id="音乐创作组成"><a href="#音乐创作组成" class="headerlink" title="音乐创作组成"></a>音乐创作组成</h2><ul>
+<li>Harmony. 和声</li>
+<li>Music Form or Structure. 音乐结构</li>
+<li>Melody and Texture. 韵律和质感</li>
+<li>Instrumentation and Orchestration. 乐器和编排</li>
+</ul>
+<h2 id="AI生成音乐方法"><a href="#AI生成音乐方法" class="headerlink" title="AI生成音乐方法"></a>AI生成音乐方法</h2><p>早些年最常用的神经网络模型是生成模型</p>
+<ul>
+<li>Variational Auto-Encoders (VAEs) 变分自动编码器</li>
+<li>Generative Adversarial Networks (GANs)<br>生成对抗网络</li>
+<li>Transformer</li>
+<li>基于文本描述生成音乐[2]</li>
+</ul>
+<h2 id="AI生成音乐面临的挑战"><a href="#AI生成音乐面临的挑战" class="headerlink" title="AI生成音乐面临的挑战"></a>AI生成音乐面临的挑战</h2><ul>
+<li>通过当前的深度学习模型生成的音乐是否于人们创造力的水平相当</li>
+<li>对深度学习生成音乐来说最好的模型架构是什么</li>
+<li>神经网络是否应该遵循人类的逻辑来创造音乐</li>
+<li>通过深度学习生成的作品只是对训练集的模仿，是否能够生成新的曲风[1]</li>
+<li>人类所创造的音乐中包含了情感 这是AI所需要突破的</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2108.12290.pdf">[1]Hernandez-Olivan, Carlos and José Ramón Beltrán. “Music Composition with Deep Learning: A Review.” ArXiv abs&#x2F;2108.12290 (2021): n. pag.</a><br>[2]Agostinelli, Andrea et al. “MusicLM: Generating Music From Text.” ArXiv abs&#x2F;2301.11325 (2023): n. pag.[对该文章整理点击跳转](% post_link Hello-World %)</p>
 
                     
                       <div id="toc-article">
@@ -153,7 +181,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld"><span class="toc-text">HelloWorld</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E5%BA%94%E7%94%A8"><span class="toc-text">AI生成音乐应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E7%9A%84%E5%8F%91%E5%B1%95"><span class="toc-text">AI生成音乐的发展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E4%B9%90%E5%88%9B%E4%BD%9C%E7%BB%84%E6%88%90"><span class="toc-text">音乐创作组成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E6%96%B9%E6%B3%95"><span class="toc-text">AI生成音乐方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E9%9D%A2%E4%B8%B4%E7%9A%84%E6%8C%91%E6%88%98"><span class="toc-text">AI生成音乐面临的挑战</span></a></li></ol>
     </div>
   </div>
 
@@ -169,6 +197,8 @@
                     
 
                       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
                         
 
 
@@ -178,12 +208,21 @@
                       
 <nav id="article-nav">
   
+    <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          Unity Shader基础知识
+        
+      </div>
+    </a>
   
-    <a href="/2022/05/07/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" id="article-nav-newer" class="article-nav-link-wrap">
+  
+    <a href="/2024/02/04/MusicLM-Generating-Music-From-Text-%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">newer</strong>
       <div class="article-nav-title">
         
-          Unity有限状态机
+          MusicLM: Generating Music From Text 文章整理
         
       </div>
     </a>
