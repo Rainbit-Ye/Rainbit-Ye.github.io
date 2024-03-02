@@ -83,6 +83,83 @@
 
       <div class="outer">
         <section id="main">
+  <article id="post-Sobel对图片的边缘检测" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">Sobel对图片的边缘检测</a>
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2024-03-02T12:04:01.000Z" itemprop="datePublished">2024年03月02日</time>
+</span>
+                  
+                    
+                          
+<a href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/#comments" class="article-comment-link">
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>毕设涉及到了对图片的复杂度进行分类判断，和朋友一块讨论了一下</p>
+<p>得出的判断方法是对图片进行Sobel描边处理，对得到的图片像素值进行加和从而分类判断复杂程度</p>
+<p>所以先从Sobel算法开始了解。</p>
+<p>相关资料连接<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/113397988">CV学习笔记（十三）：图像梯度 - 知乎 </a>；<a target="_blank" rel="noopener" href="https://blog.csdn.net/poem_qianmo/article/details/25560901">OpenCV入门教程</a></p>
+<h3 id="什么是Sobel算子"><a href="#什么是Sobel算子" class="headerlink" title="什么是Sobel算子"></a>什么是Sobel算子</h3><p>1、是边缘检测的重要方法之一</p>
+<p>2、与<strong>梯度</strong>密不可分</p>
+<p>那么梯度又是什么呢</p>
+<h4 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h4><p><strong>数学层面上的梯度</strong></p>
+<p>在高等数学里梯度不是一个实数，他是一个向量，是有方向有大小的。</p>
+<p>假设一二元函数f(x,y)，在某点的梯度有：<br>$$<br>gradf(x,y)&#x3D;\bigtriangledown f(x,y)&#x3D;{\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}}&#x3D;f_x(x,y)\overline i+f_y(x,y)\overline j<br>$$</p>
+<p>整理后得到：<br>$$<br>(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y})^T<br>$$<br>也就是他的方向导数。梯度的方向是函数变化最快的方向，沿着梯度的方向容易找到最大值</p>
+<p><strong>图像梯度</strong></p>
+<p>用导数（梯度），来衡量图像灰度的变化率，其中图像就是函数。</p>
+<p>正因如此，我们引入的图像梯度可以把图像看成二维离散函数，图像梯度其实就是这个二维离散函数的求导。</p>
+<p>将图像函数f(x,y)梯度表达式表示出来<br>$$<br>\bigtriangledown f(x,y)&#x3D;[G_x,G_y]^T&#x3D;[\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}]^T<br>$$<br>幅度与方向角：<br>$$<br>mag(\bigtriangledown f)&#x3D;g(x,y)&#x3D;\sqrt{\frac{\partial^2 f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}}<br>\<br>\phi(x,y)&#x3D;arctan|\frac{\partial f}{\partial x}&#x2F;\frac{\partial f}{\partial y}|<br>$$<br>对于数字图像来说，相当于是二维离散函数求梯度，使用差分来近似导数:<br>$$<br>G_x(x,y)&#x3D;H(x+1,y)-H(x-1,y)\<br>G_y(x,y)&#x3D;H(x,y+1)-H(x,y-1)<br>$$<br>因此，像素点(x,y)处的梯度值和梯度方向分别是：<br>$$<br>G(x,y)&#x3D;\sqrt{G_x(x,y)^2+G_y(x,y)^2}<br>\<br>\alpha(x,y)&#x3D;tan^{-1}(\frac{G_y(x,y)}{G_x(x,y)})<br>$$<br>由推论可以到的梯度的方向是函数变化最快的方向，因此函数存在边缘时，一定有较大的梯度值。</p>
+<h4 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h4><p>1、滤波：边缘检测的算法主要是基于图像强度的一阶和二阶导数（梯度），但导数通常对噪声很敏感，因此必须采用滤波器来改善与噪声有关的边缘检测器的性能</p>
+<p>2、增强：增强边缘的基础是确定图像各点邻域强度的变化值。增强算法可以将图像灰度点邻域强度值有显著变化的点凸显出来。</p>
+<p>3、检测：经过增强的图像，往往邻域中有很多点的梯度值比较大，而在特定的应用中，这些点并不是我们要找的边缘点，所以应该采用某种方法来对这些点进行取舍。</p>
+
+                    
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                          
+          </footer>
+  </div>
+</article>
+
   <article id="post-卷积神经网络-猫狗识别" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
@@ -118,111 +195,21 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>对卷积神经网络经典案例<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV15e4y1J7YS/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">猫狗识别</a>进行一个复刻和学习总结</p>
+              <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>对卷积神经网络经典案例<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV15e4y1J7YS/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">猫狗识别</a>进行一个复刻和学习总结</p>
 <p>内容有参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62760780">卷积三种模式</a>;<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/77471866">CNN基础知识</a></p>
-<h2 id="猫狗识别"><a href="#猫狗识别" class="headerlink" title="猫狗识别"></a>猫狗识别</h2><blockquote>
-<ul>
-<li>数据预处理：图像数据处理，准备训练和验证数据集</li>
-<li>卷积网络模型：构建网络架构</li>
-<li>过拟合问题：观察训练和验证效果，针对过拟合问题提出解决方法</li>
-<li>数据增强：图像数据增强方法与效果</li>
-<li>迁移学习：深度学习必备的训练策略（本篇尚未涉及）</li>
-</ul>
-</blockquote>
-<h3 id="卷积参数"><a href="#卷积参数" class="headerlink" title="卷积参数"></a>卷积参数</h3><p>输入：</p>
-<p>h: hight 长度 w: width 宽度</p>
-<p>F: filter 过滤器  P: padding 填充 S: Stride 步长</p>
-<p>输出：</p>
-<p>o: 输出图片的尺寸一般用 o 来表示。<br>$$<br>o&#x3D;\frac{h-F+2P}{S}+1<br>$$</p>
-<center><font size=2>
-    卷积计算公式
-    </font></center>
-
-<h3 id="TensorFlow-库"><a href="#TensorFlow-库" class="headerlink" title="TensorFlow 库"></a>TensorFlow 库</h3><ul>
-<li>Conv2D：</li>
-</ul>
-<p>filters: 希望的得到的特征图的个数；卷积核的个数</p>
-<p>kernel_size: 卷积原始图像的区域.</p>
-<p>strides: 步长</p>
-<p>padding:  有valid 和same两种算法 &#x2F;填充</p>
-<blockquote>
-<ul>
-<li><p>valid padding：不进行任何处理，只使用原始图像，不允许卷积核超出原始图像边界</p>
-</li>
-<li><p>same padding：进行填充，允许卷积核超出原始图像边界，并使得卷积后结果的大小与原来的一致</p>
-</li>
-</ul>
-<p>如果padding设置为SAME，则说明输入图片大小和输出图片大小是一致的，如果是VALID则图片经过滤波器后可能会变小。</p>
-</blockquote>
-<h3 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h3><ul>
-<li>首先导入所需库以及设置需要训练的文件路径</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">&quot;ignore&quot;</span>)</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> keras</span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> layers</span><br><span class="line"><span class="keyword">from</span> keras.optimizers <span class="keyword">import</span> Adam</span><br><span class="line"><span class="keyword">from</span> keras.preprocessing.image <span class="keyword">import</span> ImageDataGenerator</span><br><span class="line"></span><br><span class="line">base_dir=<span class="string">&#x27;./data/cat_dog&#x27;</span></span><br><span class="line">train_dir=os.path.join(base_dir, <span class="string">&#x27;train&#x27;</span>)</span><br><span class="line">validation_dir=os.path.join(base_dir, <span class="string">&#x27;validation&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>设置好训练集以及测试集</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 训练集</span></span><br><span class="line">train_cat_dir=os.path.join(train_dir, <span class="string">&#x27;cats&#x27;</span>)</span><br><span class="line">train_dog_dir=os.path.join(train_dir, <span class="string">&#x27;dogs&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证集</span></span><br><span class="line">validation_cat_dir=os.path.join(validation_dir, <span class="string">&#x27;cats&#x27;</span>)</span><br><span class="line">validation_dog_dir=os.path.join(validation_dir, <span class="string">&#x27;dogs&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>进行卷积网络模型的配置</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 卷积模型</span></span><br><span class="line">model = keras.models.Sequential([</span><br><span class="line">    <span class="comment"># 基于序列构建卷积模型</span></span><br><span class="line">    keras.layers.Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">&quot;relu&quot;</span>, input_shape=(<span class="number">64</span>, <span class="number">64</span>, <span class="number">3</span>)), <span class="comment"># 卷积</span></span><br><span class="line">    keras.layers.MaxPooling2D(<span class="number">2</span>, <span class="number">2</span>), <span class="comment"># 池化</span></span><br><span class="line"></span><br><span class="line">    keras.layers.Conv2D(<span class="number">64</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">&#x27;relu&#x27;</span>),</span><br><span class="line">    keras.layers.MaxPooling2D(<span class="number">2</span>, <span class="number">2</span>),</span><br><span class="line"></span><br><span class="line">    keras.layers.Conv2D(<span class="number">128</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">&#x27;relu&#x27;</span>),</span><br><span class="line">    keras.layers.MaxPooling2D(<span class="number">2</span>, <span class="number">2</span>),</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 为全连接层做准备，将特征图拉成向量</span></span><br><span class="line">    keras.layers.Flatten(),</span><br><span class="line">    <span class="comment"># 全连接层</span></span><br><span class="line">    keras.layers.Dense(<span class="number">512</span>, activation=<span class="string">&#x27;relu&#x27;</span>),</span><br><span class="line">    keras.layers.Dropout(<span class="number">0.5</span>),<span class="comment"># 随机选择其中的一些神经元并将其临时隐藏 (丢弃) 解决过拟合问题</span></span><br><span class="line">    <span class="comment"># 二分类</span></span><br><span class="line">    keras.layers.Dense(<span class="number">1</span>,activation=<span class="string">&#x27;sigmoid&#x27;</span>)</span><br><span class="line">    ])</span><br><span class="line">model.summary()</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>配置训练器</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置训练器</span></span><br><span class="line">model.<span class="built_in">compile</span>(loss=<span class="string">&#x27;binary_crossentropy&#x27;</span>, optimizer=Adam(lr=<span class="number">1e-4</span>),</span><br><span class="line">              metrics=[<span class="string">&#x27;acc&#x27;</span>])</span><br><span class="line"><span class="comment"># 数值归一化 将数值压缩到0-1范围内 预处理</span></span><br><span class="line"><span class="comment"># 生成器中的实例化对象</span></span><br><span class="line">train_datagen = ImageDataGenerator(rescale=<span class="number">1.</span>/<span class="number">255</span>,</span><br><span class="line">                                   rotation_range=<span class="number">40</span>,<span class="comment"># 进行数据增强处理</span></span><br><span class="line">                                   width_shift_range=<span class="number">0.2</span>,</span><br><span class="line">                                   height_shift_range=<span class="number">0.2</span>,</span><br><span class="line">                                   shear_range=<span class="number">0.2</span>,</span><br><span class="line">                                   zoom_range=<span class="number">0.2</span>,</span><br><span class="line">                                   horizontal_flip=<span class="literal">True</span>,</span><br><span class="line">                                   fill_mode=<span class="string">&#x27;nearest&#x27;</span>)</span><br><span class="line"></span><br><span class="line">test_datagen = ImageDataGenerator(rescale=<span class="number">1.</span>/<span class="number">255</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>读取文件夹中准备好的文件进行训练和测试</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从文件夹中读取</span></span><br><span class="line">train_generator = train_datagen.flow_from_directory(</span><br><span class="line">    train_dir,</span><br><span class="line">    target_size=(<span class="number">64</span>, <span class="number">64</span>),</span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 一次性拿出10个数据</span></span><br><span class="line"></span><br><span class="line">    class_mode=<span class="string">&#x27;binary&#x27;</span>)</span><br><span class="line"></span><br><span class="line">validation_generator = train_datagen.flow_from_directory(</span><br><span class="line">    validation_dir,</span><br><span class="line">    target_size=(<span class="number">64</span>, <span class="number">64</span>),</span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 一次性拿出10个数据</span></span><br><span class="line"></span><br><span class="line">    class_mode=<span class="string">&#x27;binary&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">history=model.fit_generator(</span><br><span class="line">    train_generator,</span><br><span class="line">    steps_per_epoch=<span class="number">2</span>,<span class="comment"># 迭代次数 数据=batch_size * steps</span></span><br><span class="line">    epochs=<span class="number">20</span>,</span><br><span class="line">    validation_data=validation_generator,</span><br><span class="line">    validation_steps=<span class="number">2</span>,</span><br><span class="line">    verbose=<span class="number">2</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>绘制可视化图形观察准确率和损失率</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可视化</span></span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读出数据</span></span><br><span class="line">acc=history.history[<span class="string">&#x27;acc&#x27;</span>]</span><br><span class="line">val_acc=history.history[<span class="string">&#x27;val_acc&#x27;</span>]</span><br><span class="line">loss=history.history[<span class="string">&#x27;loss&#x27;</span>]</span><br><span class="line">val_loss=history.history[<span class="string">&#x27;val_loss&#x27;</span>]</span><br><span class="line"></span><br><span class="line">epochs=<span class="built_in">range</span>(<span class="built_in">len</span>(acc))</span><br><span class="line"></span><br><span class="line">plt.plot(epochs, acc, <span class="string">&#x27;bo&#x27;</span>, label=<span class="string">&#x27;Training accuracy&#x27;</span>)</span><br><span class="line">plt.plot(epochs, val_acc, <span class="string">&#x27;b&#x27;</span>, label=<span class="string">&#x27;Validation accuracy&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Training and validation accuracy&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.figure()</span><br><span class="line"></span><br><span class="line">plt.plot(epochs, loss, <span class="string">&#x27;bo&#x27;</span>, label=<span class="string">&#x27;Training accuracy&#x27;</span>)</span><br><span class="line">plt.plot(epochs, val_loss, <span class="string">&#x27;b&#x27;</span>, label=<span class="string">&#x27;Validation accuracy&#x27;</span>)</span><br><span class="line">plt.title(<span class="string">&#x27;Training and validation loss&#x27;</span>)</span><br><span class="line">plt.legend()</span><br><span class="line"></span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>未进行过拟合处理的数据</li>
-</ul>
-<center>
-<div style="display:inline-block"><img src="../img/CNN/myplot.png" width="300" title="未进行过拟合处理的准确率"></div>
-<div style="display:inline-block"><img src="../img/CNN/myplot1.png" width="300"  title="未进行过拟合处理的损失率"> </div>
-<div style="float:none;clear:both;"></div>
-</center>
-- 过拟合处理后的数据
-<center>
-<div style="display:inline-block"> <img src="../img/CNN/myplot01.png" width="300" title="进行过拟合处理的准确率"> </div>  
-<div style="display:inline-block"> <img src="../img/CNN/myplot00.png" width="300"  title="进行过拟合处理的损失率"> </div>
-<div style="float:none;clear:both;"></div>
-</center>
-
-<p>由于我的训练集非常小只有20张照片，因此出现极大误差。但四张图对比可知过拟合处理可以<strong>明显的改善</strong>数据的准确性。</p>
-<h4 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h4><p>深度学习中最依赖数据量，将数据进行变换（如图像镜像翻转，放大缩小），就可以使数据量翻倍</p>
-<h4 id="过拟合解决方案"><a href="#过拟合解决方案" class="headerlink" title="过拟合解决方案"></a>过拟合解决方案</h4><p>训练集上准确率接近0.99效果很好，验证集达到0.74，差异很大。说明出现过拟合</p>
-<p>1、从数据下手，一般只对训练集做数据增强</p>
-<p>2、数据量大小</p>
-<p>3、卷积网络架构上增加dropout处理</p>
-
-                    
-                        
-                            
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2024/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -264,36 +251,20 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <p>对文献 <em>MusicLM: Generating Music From Text</em> 的一些整理</p>
-<h2 id="相关工作概括"><a href="#相关工作概括" class="headerlink" title="相关工作概括"></a>相关工作概括</h2><p>MusicLM，是一种根据文本描述生成高保真音乐的模型<br>关键字：<strong>文本描述</strong>，<strong>音乐生成</strong><br>技术难点：合成高质量和连贯音频；音频的文本描述比描述图像要困难得多；<br>主要贡献：MusicLM 利用 AudioLM 的多阶段自回归建模作为生成组件；对其进行扩展以纳入文本调节（使用MuLan联合音乐文本模型解决配对数据稀缺）<br>接受音频形式的附加旋律（例如，口哨、哼唱）以生成遵循所需旋律的音乐剪辑；发布了第一个评估数据集：MusicCaps<br>关键技术：主要由基于 Transformer 的自回归模型和 U-Net 的扩散模型</p>
-<h2 id="研究方法"><a href="#研究方法" class="headerlink" title="研究方法"></a>研究方法</h2><ul>
-<li>使用SoundStream（一种通用神经音频编解码器，能够以低比特率压缩一般音频，同时保持高重建质量）作为音频分词器，以 6 kbps 的速度高保真地重建 24 kHz 音乐。</li>
-<li>MusicLM 建立在 AudioLM 之上，具有三个重要的附加贡献：<br> （1）在描述性文本上调节生成过程<br> （2）证明调节可以扩展到其他信号，例如旋律<br> （3）模拟超越钢琴音乐的各种长音乐序列（从鼓和贝斯到爵士乐到古典音乐）</li>
-<li>采用SoundStream，w2v-BERT和MuLan三种模型来提取用于条件自回归音乐生成的音频表示，将得到的离散音频表示与 AudioLM 相结合，以实现文本调节的音乐生成</li>
-</ul>
-<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><h3 id="需要跟进的文献"><a href="#需要跟进的文献" class="headerlink" title="需要跟进的文献"></a>需要跟进的文献</h3><ul>
-<li><input disabled="" type="checkbox"> D., Tagliasacchi, M., and Zeghidour, N. Audiolm:a language modeling approach to audio generation.arXiv:2209.03143, 2022</li>
-<li><input disabled="" type="checkbox"> Zeghidour, N., Luebs, A., Omran, A., Skoglund, J., andTagliasacchi, M. Soundstream: An end-to-end neuralaudio codec. IEEE ACM Trans. Audio Speech Lang.Process., 30, 2022</li>
-</ul>
-<h3 id="idea"><a href="#idea" class="headerlink" title="idea"></a>idea</h3><p>通过文本输入的音乐生成，可以应用的领域非常广泛，并且可以对旋律进行限制。<br>对于音乐创作者可以提供一定的创作思路；对于独立游戏制作者可以提供低成本得到的音乐旋律；在手机APP广告等需要bgm的场合中也有一定的贡献等<br>但创作的独一无二性和训练集的旋律权益保障这个问题在AI音乐生成中欲待商榷，与AI图片生成面临类似的问题。</p>
-
-                    
-                        
-                            
+              <p>对文献 <em>MusicLM: Generating Music From Text</em> 的一些整理</p>
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2024/02/04/MusicLM-Generating-Music-From-Text-%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -335,70 +306,20 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <p>对文献 <em>MUSIC COMPOSITION WITH DEEP LEARNING: A REVIEW</em> 的一些整理</p>
-<h2 id="AI生成音乐应用"><a href="#AI生成音乐应用" class="headerlink" title="AI生成音乐应用"></a>AI生成音乐应用</h2><ul>
-<li>辅助音乐人创作音乐。提供灵感</li>
-<li>可以为电影、游戏和广告等媒体制作配乐。它可以根据场景的氛围和情绪自动生成适合的音乐片段，提供定制化的配乐解决方案</li>
-<li>AI音乐生成可以作为学习和教学工具，帮助音乐学生练习和改进技巧</li>
-<li>降低创作音乐的入门门槛。</li>
-</ul>
-<h2 id="AI生成音乐的发展"><a href="#AI生成音乐的发展" class="headerlink" title="AI生成音乐的发展"></a>AI生成音乐的发展</h2><p><strong>短旋律生成</strong></p>
-<ul>
-<li>在1980-2000年时，人们开始对其进行研究，使用的是神经网络方法（Neural network）</li>
-<li>近些年来基于NN框架的深度学习模型广泛应用于AI生成音乐。</li>
-<li>现在音乐创作从大规模自然语言处理（Natural Language Processing）如Transformer等模型中获取NN架构[1]</li>
-<li>2016年使用RNN生成短旋律</li>
-<li>2018年 MusicVAE 是基于 VAE 的音乐生成模型。可以通过在潜在空间中进行插值来生成音乐</li>
-<li>2019年使用Transformer进行音乐生成，可以生成更长的旋律，但几小节后会出现明显的节奏紊乱</li>
-</ul>
-<p><strong>在基于计算机的音乐创作中，可以从多乐器或多轨音乐中对乐器和编排概念进行分组。</strong></p>
-<ul>
-<li>2017 年提出多轨音乐生成 最著名的模型是 MuseGAN</li>
-<li>2020 年晚些时候基于的其他模型发布了如 MusAE 之类的自动编码器</li>
-<li>2021 年使用Transformer进行多轨音乐的生成。</li>
-</ul>
-<h2 id="音乐创作组成"><a href="#音乐创作组成" class="headerlink" title="音乐创作组成"></a>音乐创作组成</h2><ul>
-<li>Harmony. 和声</li>
-<li>Music Form or Structure. 音乐结构</li>
-<li>Melody and Texture. 韵律和质感</li>
-<li>Instrumentation and Orchestration. 乐器和编排</li>
-</ul>
-<h2 id="AI生成音乐方法"><a href="#AI生成音乐方法" class="headerlink" title="AI生成音乐方法"></a>AI生成音乐方法</h2><p>早些年最常用的神经网络模型是生成模型</p>
-<ul>
-<li>Variational Auto-Encoders (VAEs) 变分自动编码器</li>
-<li>Generative Adversarial Networks (GANs)<br>生成对抗网络</li>
-<li>Transformer</li>
-<li>基于文本描述生成音乐[2]</li>
-</ul>
-<h2 id="AI生成音乐面临的挑战"><a href="#AI生成音乐面临的挑战" class="headerlink" title="AI生成音乐面临的挑战"></a>AI生成音乐面临的挑战</h2><ul>
-<li>通过当前的深度学习模型生成的音乐是否于人们创造力的水平相当</li>
-<li>对深度学习生成音乐来说最好的模型架构是什么</li>
-<li>神经网络是否应该遵循人类的逻辑来创造音乐</li>
-<li>通过深度学习生成的作品只是对训练集的模仿，是否能够生成新的曲风[1]</li>
-<li>人类所创造的音乐中包含了情感 这是AI所需要突破的</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2108.12290.pdf">[1]Hernandez-Olivan, Carlos and José Ramón Beltrán. “Music Composition with Deep Learning: A Review.” ArXiv abs&#x2F;2108.12290 (2021): n. pag.</a><br><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2301.11325">[2]Agostinelli, Andrea et al. “MusicLM: Generating Music From Text.” ArXiv abs&#x2F;2301.11325 (2023): n. pag.</a></p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://rainbit-ye.github.io/2024/02/04/MusicLM-Generating-Music-From-Text-%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">MusicLM: Generating Music From Text 文章整理</a></li>
-</ul>
-
-                    
-                        
-                            
+              <p>对文献 <em>MUSIC COMPOSITION WITH DEEP LEARNING: A REVIEW</em> 的一些整理</p>
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2024/02/01/AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -440,88 +361,20 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="Unity学习教程-Hi-Shader"><a href="#Unity学习教程-Hi-Shader" class="headerlink" title="Unity学习教程 Hi Shader"></a>Unity学习教程 Hi Shader</h2><p>当个笔记记录一下，顺便重新系统的学习了解一下UnityShader<br><a target="_blank" rel="noopener" href="https://learn.u3d.cn/tutorial/hi-shader?chapterId=63562b25edca72001f21d009">Hi Shader</a></p>
-<h2 id="基础概念-渲染管线"><a href="#基础概念-渲染管线" class="headerlink" title="基础概念 渲染管线"></a>基础概念 渲染管线</h2><p>一般渲染管线的四个主要阶段为：应用程序阶段，几何阶段，光栅化阶段，像素处理阶段<br><img src="/../img/hiShader/e86f88e0b8de9227a9637600e9e9f6b.png" alt="渲染管线"><br><img src="/../img/hiShader/119a0821198ca9379cf7f50c7335ddc.png" alt="渲染管线 Games101"></p>
-<h4 id="应用程序阶段"><a href="#应用程序阶段" class="headerlink" title="应用程序阶段"></a>应用程序阶段</h4><p>位于CPU</p>
-<p>主要负责数据的准备，为后续操作提供模型，贴图，光照，相机位置等相关信息</p>
-<h4 id="几何阶段"><a href="#几何阶段" class="headerlink" title="几何阶段"></a>几何阶段</h4><p>位于GPU</p>
-<p><strong>顶点着色</strong>：它会对逐个顶点相关的信息进行处理，生成图元，计算并传递给接下来的渲染流程。<br>在此过程中有<strong>顶点处理</strong>，对所有的顶点数据进行MVP（MVP变换用来描述视图变换的任务，即将虚拟世界中的三维物体映射（变换）到二维坐标中）变换，最终得到数据投影到二维平面的坐标信息（同时为了Zbuffer保留深度z值）。超出观察空间的部分会被裁剪掉。</p>
-<blockquote>
-<ul>
-<li>MVP变换分为三步：<br>模型变换(model tranformation)：将模型空间转换到世界空间（找个好的地方，把所有人集合在一起，摆个pose）<br>摄像机变换(view tranformation)：将世界空间转换到观察空间（找到一个放相机的位置，往某一个角度去看）<br>投影变换(projection tranformation)：将观察空间转换到裁剪空间（茄子！）</li>
-</ul>
-</blockquote>
-<p><img src="/../img/hiShader/8200d12c5317ad670afef7d8361098b.png" alt="顶点处理 Games101"></p>
-<p><strong>几何着色</strong>：可选可编程部分，可以将简单的图元拓展成更复杂的形式。<br><strong>三角形处理</strong>就是将所有顶点按照原几何信息，变成三角面，每个面由三个顶点组成</p>
-<p><strong>裁剪</strong>：固定功能由硬件实现，对顶点，几何两大着色器的输出结果进行处理，将完全处于视锥体（可以通俗的理解为画面外）以及屏幕窗口外的几何体部分裁剪掉。留下只能用户看到的部分，并且对生成新顶点的部分进行插值，输送给接下来的阶段。</p>
-<h4 id="光栅化阶段"><a href="#光栅化阶段" class="headerlink" title="光栅化阶段"></a>光栅化阶段</h4><p>位于GPU</p>
-<p><strong>屏幕映射</strong>：经过裁剪之后，通过透视除法将物体从<strong>裁剪空间</strong>变换为<strong>标准化设备坐标</strong> 这个过程也叫做NDC，同时这一步会计算微分，边方程和其他三角形数据。三角形的朝向剔除就是在这个阶段完成的。<br>将处于标准平面映射到屏幕分辨率范围之内，即[-1,1]^2-&gt;[0,width]*[0,height], 其中width和height指屏幕分辨率大小</p>
-<ul>
-<li><strong>NDC</strong>：全称Normalized Device Coordinates，一般来说裁剪完成后，会通过透视除法，将物体从裁剪空间 变换为标准化设备坐标NDC，透视除法是将裁剪空间中，顶点的4个分量都除以w分量，从裁剪空间转换到NDC。</li>
-</ul>
-<p><strong>图元装配</strong>：<br>主要是计算微分（differentials）、边方程（edge equations）和其他三角形数据（顶点属性插值）</p>
-<p><strong>光栅化</strong>：它会在每个像素点上生成一个片元，如果开启了多重采样抗锯齿，就会对每个像素进行多次采样，产生多个片元。</p>
-<blockquote>
-<p>片元：是光栅化之后产生的像素点，因为没有被画到屏幕上，不能被直接称为像素一个像素的最终结果可能是由多个片元来决定的，渲染管线为了细分，就单独创造了片元这个词来描述它，片元只是渲染管线的概念<br>像素：则是最后写到图像上的值</p>
-</blockquote>
-<p><img src="/../img/hiShader/6b7f316e1aa1f013758d16c1753664e.png" alt="光栅化 Games101"></p>
-<h4 id="像素处理阶段"><a href="#像素处理阶段" class="headerlink" title="像素处理阶段"></a>像素处理阶段</h4><p>位于GPU</p>
-<p><strong>像素（片元）着色</strong>：对三角形内的点进行属性插值(tips：当然也可以直接在顶点处理阶段就算出每个顶点的颜色值，如Gouraud Shading一样)。当然这一阶段也少不了Z-Buffer来帮助确定，哪些像素点应该显示在屏幕上，哪些点被遮挡了不应该显示<br>输入的是颜色和纹理坐标，输出的计算后所得的每个像素的色彩值。逐像素的光照，反射，阴影等复杂的效果都是在这里实现的。</p>
-<p><strong>合并</strong>：判断一个像素点是否被显示在屏幕上，通过测试的颜色会和缓冲区的颜色叠加混合。</p>
-<p><img src="/../img/hiShader/adc13b3de86616f2badc9adb889996d.png" alt="片元阶段 Games101"></p>
-<h2 id="坐标空间"><a href="#坐标空间" class="headerlink" title="坐标空间"></a>坐标空间</h2><p><strong>模型空间</strong>以物体本身为原点的坐标空间<br><strong>世界空间</strong>以世界的(0,0)为原点的坐标空间<br><strong>视图空间</strong>以相机为原点的坐标空间，描述的物体在相机的哪个位置<br><strong>裁剪空间</strong> 顶点坐标乘以MVP矩阵之后所在的空间<br><strong>屏幕空间</strong>窗口屏幕上的二维像素坐标空间</p>
-<p><img src="/../img/hiShader/c90b3920946d0f16d56c4c1f85a6380.png" alt="坐标空间"></p>
-<h2 id="ShaderLab语法"><a href="#ShaderLab语法" class="headerlink" title="ShaderLab语法"></a>ShaderLab语法</h2><h3 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h3><p>实指属性，在Material inspector显示的所有参数都要在这里进行声明<br>通常所有属性名都以下划线字符开头</p>
-<figure class="highlight plaintext"><figcaption><span>Shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">Properties</span><br><span class="line">&#123;</span><br><span class="line">    _MainTex (&quot;Texture&quot;, 2D) = &quot;white&quot; &#123;&#125;</span><br><span class="line">    _Integer (&quot;整数(新版)&quot;, Integer) = 1</span><br><span class="line">    _Int (&quot;整数(旧版)&quot;, Int) = 1</span><br><span class="line">    _Float (&quot;浮点数&quot;, Float) = 0.5</span><br><span class="line">    _FloatRange (&quot;浮点数滑动条&quot;, Range(0.0, 1.0)) = 0.5</span><br><span class="line">                                            </span><br><span class="line">    // Unity包含以下内置纹理, 可以直接填充</span><br><span class="line">    // “white”（RGBA：1,1,1,1）</span><br><span class="line">    // “black”（RGBA：0,0,0,1）</span><br><span class="line">    // “gray”（RGBA：0.5,0.5,0.5,1）</span><br><span class="line">    // “bump”（RGBA：0.5,0.5,1,0.5）</span><br><span class="line">    // “red”（RGBA：1,0,0,1）</span><br><span class="line">     _Texture2D (&quot;2D纹理贴图&quot;, 2D) = &quot;red&quot; &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    // 字符串留空或输入无效值，则它默认为 “gray”</span><br><span class="line">    _DefaultTexture2D (&quot;2D纹理贴图&quot;, 2D) = &quot;&quot; &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    // 默认值为 “gray”（RGBA：0.5,0.5,0.5,1）</span><br><span class="line">    _Texture3D (&quot;3D纹理贴图&quot;, 3D) = &quot;&quot; &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    _Cubemap (&quot;立方体贴图&quot;, Cube) = &quot;&quot; &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    // Inspector会显示四个单独的浮点数字段</span><br><span class="line">    _Vector (&quot;Example vector&quot;, Vector) = (0.25, 0.5, 0.5, 1)</span><br><span class="line">   </span><br><span class="line">    // Inspector会显示拾色器拾取色彩RGBA值</span><br><span class="line">    _Color(&quot;色彩&quot;, Color) = (0.25, 0.5, 0.5, 1)</span><br><span class="line"></span><br><span class="line">    // 除此之外 属性声明还可以具有一个可选特性 用来告知Unity如何处理它们</span><br><span class="line">    </span><br><span class="line">    // HDR可以使色彩亮度的值超过1</span><br><span class="line">    [HDR]_HDRColor(&quot;HDR色彩&quot;, Color) = (1,1,1,1)</span><br><span class="line">    </span><br><span class="line">    // Inspector隐藏此属性</span><br><span class="line">    [HideInInspector]_Hide(&quot;看不见我~&quot;, Color) = (1,1,1,1)</span><br><span class="line">    </span><br><span class="line">    // Inspector隐藏此纹理属性的Scale Offset字段</span><br><span class="line">    [NoScaleOffset]_HideScaleOffset(&quot;隐藏ScaleOffset&quot;, 2D) = &quot;&quot; &#123;&#125;</span><br><span class="line">    </span><br><span class="line">    // 指示纹理属性为法线贴图，如果分配了不兼容的纹理，编辑器则会显示警告。</span><br><span class="line">    [Normal]_Normal(&quot;法线贴图&quot;, 2D) = &quot;&quot; &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="SubShader"><a href="#SubShader" class="headerlink" title="SubShader"></a>SubShader</h3><p>子着色器<br>一个shader至少有一个或多个子着色器SubShader，这些子着色器互不干扰，且只有一个会运行</p>
-<p><strong>Tags</strong>：向子着色器分配标签，以键值对的形式存在，可以出现多个键值对</p>
-<figure class="highlight plaintext"><figcaption><span>shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Tags &#123; </span><br><span class="line">    &quot;TagName1&quot; = &quot;Value1&quot;</span><br><span class="line">    &quot;TagName2&quot; = &quot;Value2&quot;</span><br><span class="line">    &quot;TagName3&quot; = &quot;Value3&quot;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>RenderPipeline</strong>: 声明子着色器是否与通用渲染管线 (URP) 或高清渲染管线 (HDRP) 兼容<br>仅与 URP 兼容<br><code>Tags &#123; &quot;RenderPipeline&quot;=&quot;UniversalRenderPipeline&quot; &#125;</code><br>仅与 HDRP 兼容<br><code>Tags &#123; &quot;RenderPipeline&quot;=&quot;HighDefinitionRenderPipeline&quot; &#125;</code><br>RenderPipeline不声明或任何其他值表示与 URP 和 HDRP 不兼容</p>
-<p><strong>Queue</strong>: 声明渲染队列</p>
-<p>最早被调用的渲染，用来渲染天空盒或者背景<br><code>Tags &#123; &quot;Queue&quot;=&quot;Background&quot; &#125;</code></p>
-<p>这是默认值，用来渲染非透明物体（普通情况下，场景中的绝大多数物体应该是非透明的）<br><code>Tags &#123; &quot;Queue&quot;=&quot;Geometry&quot; &#125;</code></p>
-<p>用来渲染经过Alpha Test的像素，单独为AlphaTest设定一个Queue是出于对效率的考虑<br><code>Tags &#123; &quot;Queue&quot;=&quot;AlphaTest&quot; &#125;</code></p>
-<p>以从后往前的顺序渲染透明物体<br><code>Tags &#123; &quot;Queue&quot;=&quot;Transparent&quot; &#125;</code></p>
-<p>用来渲染叠加的效果，是渲染的最后阶段（比如镜头光晕等特效）<br><code>Tags &#123; &quot;Queue&quot;=&quot;Overlay&quot; &#125;</code></p>
-<p><strong>RenderType</strong>：用来区别这个shader要渲染的对象是什么类型<br>设置渲染类型 用一种称为着色器替换的技术在运行时交换子着色器,用来区别这个Shader要渲染的对象是属于什么类别的</p>
-<p>这里表示非透明物体渲染<br><code>Tags &#123; &quot;RenderType&quot;=&quot;Opaque&quot; &#125;</code></p>
-<p>更多详细内容可参考官网文档 <a target="_blank" rel="noopener" href="https://docs.unity.cn/cn/2021.3/Manual/SL-SubShaderTags.html">https://docs.unity.cn/cn/2021.3/Manual/SL-SubShaderTags.html</a><br><strong>顶点着色器</strong><br>定义顶点着色器函数 函数名要与声明顶点着色器名称相同</p>
-<figure class="highlight plaintext"><figcaption><span>Shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">v2f vert (appdata v)</span><br><span class="line">&#123;</span><br><span class="line">    v2f o;</span><br><span class="line"></span><br><span class="line">    // 将顶点坐标从模型空间变换到裁剪空间</span><br><span class="line">    o.vertex = UnityObjectToClipPos(v.vertex);</span><br><span class="line">    o.uv = TRANSFORM_TEX(v.uv, _MainTex);</span><br><span class="line">    UNITY_TRANSFER_FOG(o,o.vertex);</span><br><span class="line">    return o;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>片元着色器</strong><br>SV_Target可以视为COLOR ，虽说他也是作为输出值输出给系统的<br>但它其实是告诉系统把输出的颜色值存储到RenderTarget中<br>所以这里我们用SV_Target</p>
-<figure class="highlight plaintext"><figcaption><span>Shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fixed4 frag (v2f i) : SV_Target</span><br><span class="line">&#123;</span><br><span class="line">    // 采样2D纹理贴图</span><br><span class="line">    fixed4 col = tex2D(_MainTex, i.uv);</span><br><span class="line"></span><br><span class="line">    // 返回经过处理后的最终色彩</span><br><span class="line">    return col;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="HLSL常用函数"><a href="#HLSL常用函数" class="headerlink" title="HLSL常用函数"></a>HLSL常用函数</h2><h3 id="基本数学运算"><a href="#基本数学运算" class="headerlink" title="基本数学运算"></a>基本数学运算</h3><p>max(a,b) 返回较大的那个<br>min(a,b) 返回较小的那个<br>mul(a,b) 两变量相乘，常用于矩阵运算<br>abs(a) 返回a的绝对值<br>round(x) 返回与x最近的整数<br>sqrt(x) 返回x的平方根<br>rsqrt(x) 返回x的平方根的倒数</p>
-<p>degress(x) 将弧度转换为角度<br>redians(x) 将角度转换成弧度<br>noise(x) 噪声函数</p>
-<h3 id="幂指对函数"><a href="#幂指对函数" class="headerlink" title="幂指对函数"></a>幂指对函数</h3><p>pow(x,y) x的y次幂<br>exp(x) 返回以e为底，x为指数的幂<br>exp2(Value x) 返回以2为底，x为指数的幂<br>ldexp(x,exp) 返回x与2的exp次方的乘积<br>log(x) 返回指定值的以e为底的对数<br>log10(x) 求以10为底的对数<br>log2(x) 求以2为底的对数</p>
-<p>frexp(x,out exp) 把浮点数x分解成尾数和指数 x&#x3D;ret*2^exp<br>返回值是尾数 exp参数返回值是指数</p>
-<h3 id="三角函数与双曲函数"><a href="#三角函数与双曲函数" class="headerlink" title="三角函数与双曲函数"></a>三角函数与双曲函数</h3><p>sin(x),cos(x),tan(x) 下划线前x均为弧度<br>sincos(x,out s,out c) 返回x的正弦值和余弦值<br>tan(y,x) 返回y&#x2F;x的正切值<br>asin(x) 返回输入值的反正弦值<br>acos(x) 返回输入值反余弦值<br>atan(x) 返回输入值的反正切值<br>atan2(y,x) 返回y&#x2F;x的反正切值</p>
-<p>sinh(x) 返回x的双曲正弦值<br>cosh(x) 返回x的双曲余弦值<br>tanh(x) 返回x的双曲正切值</p>
-<h3 id="数据范围类"><a href="#数据范围类" class="headerlink" title="数据范围类"></a>数据范围类</h3><p>ceil(x) 返回≥x的最小整数<br>floor(x) 返回≤x的最大整数<br>step(x,y) x≤y为1，否则为0<br>saturate(x) 返回将x钳制到0，1之间的值<br>clamp(x,min,max) 把x限制在[min,max]范围内，小于返回min，大于返回max<br>fmod(x,y) 返回x对y取余的余数<br>frac(x) 返回x的小数部分<br>modf(x,out ip) 将值x分为小数和整数部分</p>
-<p>lerp(x,y,s)按照s在x到y之间插值，返回x*(1-s)+y*s<br>smoothstep(min,max,x),如果x在[min,max]范围内，则返回介于0和1之间的平滑Hermite插值<br>使用smoothstep在两个值之间创建平滑过渡</p>
-<h3 id="类型判断类"><a href="#类型判断类" class="headerlink" title="类型判断类"></a>类型判断类</h3><p>all(x) 确定指定量的所有分量是否均为非零，均非零则返回true，否则返回false<br>clip(x) 如果输入值小于0，则丢弃当前像素，常用于判定范围，常用于测试alpha，如果每个分量代表到平面的距离，还可以用来模拟剪切平面<br>sign(x) 返回x的正负性 如果x小于零，返回-1，如果x等于零，返回0，如果x大于零，返回1<br>isinf(x) 如果x参数为正无穷+INF或负无穷-INF，返回true，否则返回False<br>isfinite(x) 判断x参数是有限，有界的，与isinif相反<br>isnan(x) 如果x参数为NAN（非数字），返回true，否则返回False</p>
-<h3 id="向量与矩阵类"><a href="#向量与矩阵类" class="headerlink" title="向量与矩阵类"></a>向量与矩阵类</h3><p>length(v) 返回向量的长度<br>normalize(v) 向量归一化，x&#x2F;length(x) 方向向量归一化<br>distance(a,b) 返回两个向量之间的距离，按理说应为0，此处表示为根号下各分量之差的平方和<br>dot(a,b) 返回a和b两个向量的点积<br>cross(a,b) 返回a和b两个向量的叉积</p>
-<p>determinant(m) 返回矩阵m按行列式的方法计算的值<br>transpose(m) 返回矩阵m的转置矩阵</p>
-
-                    
-                        
-                            
+              <h2 id="Unity学习教程-Hi-Shader"><a href="#Unity学习教程-Hi-Shader" class="headerlink" title="Unity学习教程 Hi Shader"></a>Unity学习教程 Hi Shader</h2><p>当个笔记记录一下，顺便重新系统的学习了解一下UnityShader<br><a target="_blank" rel="noopener" href="https://learn.u3d.cn/tutorial/hi-shader?chapterId=63562b25edca72001f21d009">Hi Shader</a></p>
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -563,40 +416,20 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <p>最近在学习Unity的粒子特效效果，跟着网上的教程用<code>ShaderGraph</code>复现了一下。<br>教程中用到的是Unity ASE<br>Bilibili教程链接：<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kg411P793/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Unity ASE 收缩星星Shader教程</a></p>
-<h2 id="流程思路"><a href="#流程思路" class="headerlink" title="流程思路"></a>流程思路</h2><p>思路：通过对UV进行一系列操作，获取到一个非黑即白的型星型图案</p>
-<p>获取UV的R通道和G通道的值，利用<code>Blend</code>结点中的差异<code>difference</code>效果得到星星的一个对角线（反方向对角线同理）<br>随后进行颜色减淡处理，增强效果。</p>
-<ul>
-<li>difference原理：计算黑色与白色的差异，假设1为白色，0为黑色。黑色和黑色差异为0，黑色与白色差异为1<br><img src="/../img/star/dif.png" alt="difference差异过程"></li>
-<li>dodge原理：<code>saturate( ( y/ max( 1.0 - x, 0. 00001 ) ) ).xxxx</code></li>
-<li>其中 saturate(x)：如果x取值小于0，则返回值为0。如果x取值大于1，则返回值为1。若x在0到1之间，则直接返回x的值。<br><img src="/../img/star/dodge.png" alt="dodge差异过程"></li>
-</ul>
-<p>获得到初步的星型的图像后，利用<code>Step</code>结点进行取整，获得只有0或1的图像信息。</p>
-<p><img src="/../img/star/step.png" alt="Step运算"><br>获取边框和内部两部分，边框的获取便是将原始图像增大部分的范围，与原始图像进行减法运算，获取边框部分。<br>对边框和原始图像内部进行相加，赋予颜色，得到星星效果</p>
-<p><img src="/../img/star/re0.png" alt="结果"></p>
-<p>与Unity中的粒子效果相结合，通过调整粒子效果相关参数以及自定义参数</p>
-<p><img src="/../img/star/0.gif" alt="效果图"></p>
-<p>在进行dedge处理后，通过增加一步取整，可以获得直角星星。</p>
-<p><img src="/../img/star/zhijiao.png" alt="直角星星"><br><img src="/../img/star/z.gif" alt="直角星星效果图"></p>
-<p>ShaderGraph的下载链接<a target="_blank" rel="noopener" href="https://github.com/Rainbit-Ye/Star">https://github.com/Rainbit-Ye/Star</a></p>
-
-                    
-                        
-                            
+              <p>最近在学习Unity的粒子特效效果，跟着网上的教程用<code>ShaderGraph</code>复现了一下。<br>教程中用到的是Unity ASE<br>Bilibili教程链接：<br><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kg411P793/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Unity ASE 收缩星星Shader教程</a></p>
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -638,50 +471,20 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343657182">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45453761">参考资料2</a></p>
-<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><code>k 近邻法 (k-nearest neighbor, k-NN)</code> 是一种基本分类与回归方法。是数据挖掘技术中原理最简单的算法之一，核心功能是解决有监督的分类问题。KNN能够快速高效地解决建立在特殊数据集上的预测分类问题，但其不产生模型，因此算法准确性并不具备强可推广性。</p>
-<p>KNN算法的思想：对于任意n维输入向量，分别对应于特征空间中的一个点，输出为该特征向量所对应的类别标签或预测值。</p>
-<p>KNN分类算法的分类预测过程十分简单并容易理解：对于一个需要预测的输入向量x，我们只需要在训练数据集中寻找k个与向量x最近的向量的集合，然后把x的类别预测为这k个样本中类别数最多的那一类。</p>
-<p>我个人的理解是计算需要预测的向量与其他向量的之间的距离，根据距离来判断需要预测的向量的类别。</p>
-<p><img src="/../img/KNN/KNN.png" alt="KNN算法示意图"></p>
-<h2 id="算法设计思路"><a href="#算法设计思路" class="headerlink" title="算法设计思路"></a>算法设计思路</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16h411r75w/?share_source=copy_web&vd_source=2cf49e9f6b04f274596d5dc37336cd1e">KNN算法的python实现</a></p>
-<blockquote>
-<p>写一个数据集函数，返回x，y<br>写KNN函数，进行分类</p>
-<ul>
-<li>计算距离：采用欧氏距离</li>
-<li>排序，对数据进行排序，返回排序前所在的位置索引</li>
-<li>创建字典进行初始化</li>
-<li>统计表决，并进行排序</li>
-</ul>
-<p>测试</p>
-</blockquote>
-<h2 id="KNN的局限性"><a href="#KNN的局限性" class="headerlink" title="KNN的局限性"></a>KNN的局限性</h2><p>优点：精度高，对异常值不敏感，无数据输入假定<br>缺点：计算复杂度高，空间复杂度高</p>
-<h2 id="KNN算法的Pyton实现"><a href="#KNN算法的Pyton实现" class="headerlink" title="KNN算法的Pyton实现"></a>KNN算法的Pyton实现</h2><p>在以下简单算法实现中，例举了属于爱情片（LOVE）或是动作片（ACT）的两组数值<br>其中设定k为3</p>
-<p><img src="/../img/KNN/a233291d5c84fdd48bfc0e7f6906cd3.png" alt="样例"></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> operator</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">DataSet</span>():</span><br><span class="line">    group = np.array([[<span class="number">3</span>, <span class="number">104</span>], [<span class="number">2</span>, <span class="number">100</span>], [<span class="number">1</span>, <span class="number">81</span>], [<span class="number">101</span>, <span class="number">10</span>], [<span class="number">99</span>, <span class="number">5</span>], [<span class="number">98</span>, <span class="number">2</span>]])</span><br><span class="line">    labels = [<span class="string">&quot;LOVE&quot;</span>, <span class="string">&quot;LOVE&quot;</span>, <span class="string">&quot;LOVE&quot;</span>, <span class="string">&quot;ACT&quot;</span>, <span class="string">&quot;ACT&quot;</span>, <span class="string">&quot;ACT&quot;</span>]</span><br><span class="line">    <span class="keyword">return</span> group, labels</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">KNN</span>(<span class="params">in_x, x_labels, y_labels, k</span>):</span><br><span class="line">    x_labels_size = x_labels.shape[<span class="number">0</span>]  <span class="comment"># 访问行数</span></span><br><span class="line">    distance = (</span><br><span class="line">        np.tile(in_x, (x_labels_size, <span class="number">1</span>)) - x_labels</span><br><span class="line">    ) ** <span class="number">2</span>  <span class="comment"># 将in_x转换为与np数组一样的数组，进行相减后求差</span></span><br><span class="line">    ad_distance = distance.<span class="built_in">sum</span>(axis=<span class="number">1</span>)  <span class="comment"># axis为0是按行相加，1是按列相加</span></span><br><span class="line">    sq_distance = ad_distance**<span class="number">0.5</span>  <span class="comment"># 得到欧氏距离</span></span><br><span class="line">    ed_distance = sq_distance.argsort()  <span class="comment"># 进行升序排序，返回的是(排序前)距离的索引</span></span><br><span class="line">    classdict = &#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(k):</span><br><span class="line">        voteI_label = y_labels[ed_distance[i]]</span><br><span class="line">        classdict[voteI_label] = classdict.get(voteI_label, <span class="number">0</span>) + <span class="number">1</span>  <span class="comment"># 类型统计计数</span></span><br><span class="line">    sort_classdict = <span class="built_in">sorted</span>(classdict.items(), key=operator.itemgetter(<span class="number">1</span>), reverse=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> sort_classdict[<span class="number">0</span>][<span class="number">0</span>]  <span class="comment"># 访问k中最多的类别，即 要预测的类别</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    group, labels = DataSet()</span><br><span class="line">    test_x = [<span class="number">18</span>, <span class="number">90</span>]</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;TYPE:&#123;&#125;&quot;</span>.<span class="built_in">format</span>(KNN(test_x, group, labels, <span class="number">3</span>)))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>TYPE：LOVE</p>
-</blockquote>
-<p>最终可以正常输出预测出需要测试的影片的类别</p>
-
-                    
-                        
-                            
+              <p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343657182">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/45453761">参考资料2</a></p>
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2023/06/06/KNN%E7%AE%97%E6%B3%95/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -723,34 +526,21 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学校的专业课接触到了VR领域。对三自由度和六自由度这两个术语进行一些了解<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/248556100">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/93889988">参考资料2</a></p>
+              <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在学校的专业课接触到了VR领域。对三自由度和六自由度这两个术语进行一些了解<br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/248556100">参考资料1</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/93889988">参考资料2</a></p>
 <p>当谈及VR中的移动方式和定位模式，人们总是会提到一个词叫「自由度」或者「DOF」<br>即Degree of Freedom的简称。</p>
-<h3 id="自由度：解释了6个轴"><a href="#自由度：解释了6个轴" class="headerlink" title="自由度：解释了6个轴"></a>自由度：解释了6个轴</h3><p>“Dof” 代表 “自由度”。而前缀的数字代表要追踪多少个不同的轴</p>
-<p>物体可以在三维空间中移动的六个自由度(DOF)<br>六个自由度分别为：沿x轴平移，沿y轴平移，沿z轴平移，绕x轴转动，绕y轴转动，绕z轴转动<br>六个角度是(1)向前&#x2F;向后，(2)向上&#x2F;向下，(3)左&#x2F;右，(4)偏航，(5)俯仰和(6)滚动</p>
-<p><img src="/../img/dof/%E8%BD%B4.png" alt="轴向"></p>
-<p>自由度解释了六个轴，有三个主轴和三个辅助轴<br>其中 3dof的vr设备提供我们可以使用一组旋转或平移的设备<br>6dof的vr设备可以同时满足这两种情况</p>
-<h4 id="三自由度"><a href="#三自由度" class="headerlink" title="三自由度"></a>三自由度</h4><p>当使用允许3DOF的VR系统时，玩家的位置是固定的，无法在环境中进行走动<br>只能体验到3DOF中的自由度是偏航，俯仰和横滚。<br>这三个运动使用的是xyz轴的基本旋转</p>
-<h4 id="六自由度"><a href="#六自由度" class="headerlink" title="六自由度"></a>六自由度</h4><p>当使用允许6DOF的VR系统时，玩家可以在有限的空间内自由移动<br>可以充分利用所有的六个自由度：偏航，俯仰，侧倾，前&#x2F;后，上&#x2F;下，左&#x2F;右</p>
-<h2 id="自由度的用处"><a href="#自由度的用处" class="headerlink" title="自由度的用处"></a>自由度的用处</h2><p>自由度越高，或DOF数越大，即在VR体验中，用户本体能被系统定位到、且映射到虚拟世界里的的运动模式越多。对VR有所耳闻的读者都可能听过「6DOF」和「3DOF」这两个词（即6自由度和3自由度）。3DOF的头显只能定位用户头部的本地运动（XYZ三轴旋转，即俯仰、偏航、滚动）；而6DOF的头显在此基础上还能定位用户在空间XYZ方向上的移动，即空间坐标位置的改变。下方的GIF图就展示了6DOF和3DOF的区别。</p>
-<p><img src="/../img/dof/6637e50652c61f5f62d390a7b1fa477f.gif" alt="6DOF和3DOF的区别"></p>
-
-                    
-                        
-                            
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2023/05/08/VR%E4%B8%AD%E7%9A%84%E4%B8%89%E8%87%AA%E7%94%B1%E5%BA%A6-3dof-%E5%92%8C%E5%85%AD%E8%87%AA%E7%94%B1%E5%BA%A6-6dof/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -792,78 +582,21 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近在B站上刷到了一款叫《笼中窥梦》的游戏，感觉游戏无论是从玩法，还是美术风格设计上都非常戳我<br>我觉得最具有创新的一个地方是实现正方体的六个面呈现出不同的场景，从而进行游戏</p>
+              <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>最近在B站上刷到了一款叫《笼中窥梦》的游戏，感觉游戏无论是从玩法，还是美术风格设计上都非常戳我<br>我觉得最具有创新的一个地方是实现正方体的六个面呈现出不同的场景，从而进行游戏</p>
 <p>虽然对Shader学的一知半解，但也跃跃欲试</p>
-<p>在网上查阅参考了以下</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1TY411t7Qy/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Bilibili《笼中窥梦》Unity实现</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1FT411d77c/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Bilibili Unity实现《笼中窥梦》效果的魔方教程</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Tb4y1C7Qa?p=2&vd_source=74f8b74c356125fe302993b2b44a4479">Bilibili【技术美术百人计划】图形 3.1 深度与模板测试 传送门效果示例</a></li>
-</ul>
-<p>从上面的视频学习到笼中窥梦的效果是基于模板测试实现的，于是又去学习模板检测的相关原理。</p>
-<h3 id="模板测试"><a href="#模板测试" class="headerlink" title="模板测试"></a>模板测试</h3><p>首先要先从渲染管线的了解入手<br><img src="/../img/%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF.png" alt="渲染管线流程图"></p>
-<ul>
-<li>Pixel Ownership Test 实指对当前屏幕像素的一个使用权限。</li>
-<li>Scissor Test 裁剪窗口 自行决定需要渲染的部分</li>
-<li>Alpha Test 透明度测试 例如a是一个阈值，在0-1之间，若设置a&#x3D;0.5 那么当透明度大于0.5的像素都可以通过测试</li>
-<li>Stencil Test 模板测试</li>
-<li>Depth Test 深度测试</li>
-<li>Blending 混合</li>
-<li>Dithering 半调色彩</li>
-</ul>
-<p>以上进行的是逐片元操作</p>
-<hr>
-<p>细说模板测试<br>模板测试从逻辑上理解就是通过一定条件来判断是对该片元或偏远属性执行抛弃操作还是保留操作</p>
-<p>引入一下模板测试的概念</p>
-<blockquote>
-<p>说到模板测试，就要先说到模板缓冲区。<br>模板缓冲区与颜色缓冲区和深度缓冲区类似，模板缓冲区可以为屏幕上的每个像素点保存一个无符号整数值(通常的话是个8位整数)。<br>这个值的具体意义视程序的具体应用而定。<br>在渲染的过程中，可以用这个值与一个预先设定的参考值相比较，根据比较的结果来决定是否更新相应的像素点的颜色值。<br>这个比较的过程被称为模板测试。模板测试发生在透明度测试 (alphatest)之后，深度测试(depth test)之前。<br>如果模板测试通过，则相应的像素点更新，否则不更新。</p>
-</blockquote>
-<p><img src="/../img/%E6%A8%A1%E6%9D%BF%E6%B5%8B%E8%AF%95.png" alt="模板测试"></p>
-<p>在UnityShader中，对模板测试给出了以下表现形式</p>
-<figure class="highlight plaintext"><figcaption><span>Shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">stencil&#123;</span><br><span class="line">    Ref referenceValue </span><br><span class="line">    ReadMask readMask</span><br><span class="line">    WriteMask writeMask</span><br><span class="line">    Comp comparisonFunction</span><br><span class="line">    Pass stencilOperation</span><br><span class="line">    Fail stencilOperation</span><br><span class="line">    ZFail stencilOperation</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>referenceValue</code>为当前片元的参考值，用来与模板缓冲区的值进行比较<br><code>readMask(读掩码)</code>和<code>writeMask(写掩码)</code><br><code>comparisonFunction</code>是一个进行比较的操作</p>
-<p><code>Pass</code>所对应的是模板测试通过所进行的操作<br><code>Fail</code>是模板测试未通过进行的操作<br><code>ZFail</code>为模板测试通过但深度测试未通过进行的操作</p>
-<p>对应后三种stencilOperation，有一个更新值表格</p>
-<p> <img src="/../img/%E6%9B%B4%E6%96%B0%E6%93%8D%E4%BD%9C.png" alt="更新值"></p>
-<hr>
-<p>理论知识装备完毕，开始进行实践！</p>
-<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>需要分为两个shader实现，一个是蒙版所需要的shader，另外一个则是需要进行模板测试的物体所挂载的shader</p>
-<details style="color:DarkTurquoise;">
-  <summary>展开查看代码</summary>
-
-<figure class="highlight plaintext"><figcaption><span>Shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Shader &quot;Unlit/StencilTest01&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _ID(&quot;Mask ID&quot;,Int) = 1</span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123; &quot;RenderType&quot;=&quot;Opaque&quot; &quot;Queue&quot;=&quot;Geometry+1&quot; &#125;</span><br><span class="line">        ColorMask 0</span><br><span class="line">        ZWrite off</span><br><span class="line">        Stencil&#123;</span><br><span class="line">            Ref [_ID]</span><br><span class="line">            Comp always //不管公式两边为何值 模板测试总是通过</span><br><span class="line">            Pass replace //通过测试则将当前的ID值替换模板缓冲区的值</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        Pass</span><br><span class="line">        &#123;</span><br><span class="line">            CGPROGRAM</span><br><span class="line">            #pragma vertex vert</span><br><span class="line">            #pragma fragment frag</span><br><span class="line">            // make fog work</span><br><span class="line">            #pragma multi_compile_fog</span><br><span class="line"></span><br><span class="line">            #include &quot;UnityCG.cginc&quot;</span><br><span class="line">            struct appdata</span><br><span class="line">            &#123;</span><br><span class="line">                float4 vertex : POSITION;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            struct v2f</span><br><span class="line">            &#123;</span><br><span class="line">                float4 pos : SV_POSITION;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            v2f vert (appdata v)</span><br><span class="line">            &#123;</span><br><span class="line">                v2f o;</span><br><span class="line">                o.pos = UnityObjectToClipPos(v.vertex);</span><br><span class="line">                return o;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            fixed4 frag (v2f i) : SV_Target</span><br><span class="line">            &#123;</span><br><span class="line">                return half4(1,1,1,1);</span><br><span class="line">            &#125;</span><br><span class="line">            ENDCG</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-</details>
-
-<p>接下来是对物体的Shader的编写。</p>
-<details style="color:DarkTurquoise;">
-  <summary>展开查看代码</summary>
-
-<figure class="highlight plaintext"><figcaption><span>Shader</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">Shader &quot;Unlit/StencilPlane&quot;</span><br><span class="line">&#123;</span><br><span class="line">    Properties</span><br><span class="line">    &#123;</span><br><span class="line">        _MainTex(&quot;Texture&quot;, 2D) = &quot;white&quot; &#123;&#125;</span><br><span class="line">        _Brightness(&quot;Brightness&quot;, Range(0, 2)) = 1.0</span><br><span class="line">        _ID(&quot;Mask ID&quot;,Int)=1</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    SubShader</span><br><span class="line">    &#123;</span><br><span class="line">        Tags &#123; &quot;RenderType&quot;=&quot;Opaque&quot;  &quot;Queue&quot;=&quot;Geometry+2&quot;&#125; //在mask之后进行渲染</span><br><span class="line">        LOD 200</span><br><span class="line"></span><br><span class="line">        Stencil&#123;</span><br><span class="line">            Ref [_ID]</span><br><span class="line">            Comp equal //当物体的id与mask的id一致时，才会通过测试，进行渲染物体</span><br><span class="line">        &#125;</span><br><span class="line">        CGPROGRAM</span><br><span class="line">        #pragma surface surf Standard</span><br><span class="line"></span><br><span class="line">        sampler2D _MainTex;</span><br><span class="line">        float _Brightness;</span><br><span class="line"></span><br><span class="line">        struct Input</span><br><span class="line">        &#123;</span><br><span class="line">            float2 uv_MainTex;</span><br><span class="line">            float3 worldNormal;</span><br><span class="line">            float3 worldPos;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        void surf (Input IN, inout SurfaceOutputStandard o)</span><br><span class="line">        &#123;</span><br><span class="line">            // 计算法线方向和光线方向的点积</span><br><span class="line">            float ndotl = max(0.0, dot(normalize(IN.worldNormal), normalize(_WorldSpaceLightPos0.xyz)));</span><br><span class="line"></span><br><span class="line">            // 根据半兰伯特光照模型，计算漫反射光颜色</span><br><span class="line">            float3 diffuse = (_Brightness * ndotl *0.5)+0.5;</span><br><span class="line"></span><br><span class="line">            o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * diffuse;</span><br><span class="line">            o.Alpha = tex2D(_MainTex, IN.uv_MainTex).a;</span><br><span class="line">            o.Metallic = 0;</span><br><span class="line">            o.Smoothness = 0.5;</span><br><span class="line">        &#125;</span><br><span class="line">        ENDCG</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-</details>
-
-<p>最后在unity上实现，将Shader分别挂载到蒙版模型和需要进行模板测试的模型上<br>效果如下图：<br><img src="/../img/%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B.png" alt="模板测试+笼中窥梦效果"></p>
-<p>可以明显看到小狐狸和森林木屋的模型被分别分开渲染出来<br>并且在模板外部的森林木屋模型并没有渲染</p>
-
-                    
-                        
-                            
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -905,111 +638,20 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在开发项目过程中，遇到需要实现根据当前事件来触发游戏UI的跟踪提示，从而指引玩家获得更好的游戏体验。<br>采用了相当简单粗暴的方式进行判断和实现</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (arrow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt; area.xMin &amp;&amp; screenPoint.x &lt; area.xMax &amp;&amp; screenPoint.y &gt; area.yMin &amp;&amp; screenPoint.y &lt; area.yMax)</span><br><span class="line">        arrow.position = screenPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过判断是否在UI屏幕的内部从而实现固定UI屏幕内。<br>其中<code>arrow</code>为光标指示UI，<code>area</code>为Rect类型，从而限定大小<br>通过判断屏幕周围8个区域的x，y值进行与光标指示UI进行比较，将UI固定在屏幕内。</p>
-<p>通过给NPC加入标签，开Star()函数中进行初始化，获取NPC的信息数据。在Update()中调用方法通过判定是否是当前图标所要追踪的NPC从而实现实时追踪</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    player = GameObject.FindWithTag(<span class="string">&quot;Player&quot;</span>).GetComponent&lt;PlayerMessage&gt;();</span><br><span class="line">    arrowImg = arrow.GetComponent&lt;Image&gt;();</span><br><span class="line">    npcMessages = GameObject.FindGameObjectsWithTag(<span class="string">&quot;NPC&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; npcMessages.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (player.missionState == (<span class="built_in">int</span>)npcMessages[i].GetComponent&lt;NPCMessage&gt;().NpcType)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrowDis(npcMessages[i].transform);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/../img/NPCArrow.gif" alt="菱形UI跟随NPC狐狸模型"></p>
-<p>最终可以初步实现效果，但是代码还是过于简单粗暴，需要改进细化，并且在追踪识别NPC过程中会出现当玩家180度背对NPC时，UI追踪光标仍然会追踪到屏幕对应的位置。<br>先记录下来bug，会对其进行修改。</p>
-
-                    
-                        
-                            
+              <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在开发项目过程中，遇到需要实现根据当前事件来触发游戏UI的跟踪提示，从而指引玩家获得更好的游戏体验。<br>采用了相当简单粗暴的方式进行判断和实现</p>
+                
           </div>
           <footer class="article-footer">
             
-                  <div class="article-tag-wrap">
-                    
-
-                      
+              
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
 
-                        
-
-
-                  </div>
-                  
-                    
-                          
-          </footer>
-  </div>
-</article>
-
-  <article id="post-立绘干货" class="h-entry article article-type-post"
-  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-inner">
-    
-      
-        <header class="article-header">
-          
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/">立绘干货</a>
-    </h1>
-  
-
-
-        </header>
-        
-          <div class="article-meta">
-            
-                <span class="article-date">
-  <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-03-04T14:04:45.000Z" itemprop="datePublished">2023年03月04日</time>
-</span>
-                  
-                    
-                          
-<a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/#comments" class="article-comment-link">
-  
-  <i class="fa fa-commt"></i>
-  Guestbook
-</a>
-
-
-          </div>
-          <div class="e-content article-entry" itemprop="articleBody">
-            
-                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在学着画立绘，听了一些网课老师推荐是要经常画速写，速涂。<br>速写和速涂都可以提高画技</p>
-<h3 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h3><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/407763021">知乎上的二分解答</a><br>其中二分是比较重要的一点<br>关于二分的定义：</p>
-<ul>
-<li>二分光影指的是对一个有体积感的物体，进行光影简化概括的画面表达方式。</li>
-<li>简单来说二分就是将光影分开，亮面暗面分开，不加灰面，用黑白概括的样子</li>
-</ul>
-<p><img src="/../img/rf.jpg" alt="二分例图"></p>
-<p>在二分内部也可以进行更加细致的二次二分，从而增加画面的细节。</p>
-<h3 id="光影"><a href="#光影" class="headerlink" title="光影"></a>光影</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/429040798">光影分析</a></p>
-<ul>
-<li>三大面 五大调</li>
-</ul>
-<p>学习光影关系，我们需要明白它的核心知识点三大面、五大调。<br>三大面:物体的亮面、暗面、灰面 (固有色面)<br>五大调:物体的高光、灰面、明暗交界线、反光&#x2F;透气、投影如下图所示来分析下场景几何结构的光影关系</p>
-<p><img src="/../img/%E5%85%89%E5%BD%B11.png" alt=" "><br><img src="/../img/%E5%85%89%E5%BD%B12.png" alt="光影结构关系图"></p>
-<p>零七八碎看那么多<br>上手实践！</p>
-<p><img src="/../img/%E9%B1%BC111.png" alt="画一个速写"></p>
-<p>感觉人体和光影还是怪怪的<br>还是要多多练习</p>
-
-                    
-                        
-                            
-          </div>
-          <footer class="article-footer">
-            
-                  <div class="article-tag-wrap">
-                    
-
-                      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Art/" rel="tag">Art</a></li></ul>
-
-                        
-
-
-                  </div>
-                  
+                <p class="article-more-link">
+                  <a href="/2023/04/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/#more">
+                    Read More
+                  </a>
+                </p>
+                
                     
                           
           </footer>
@@ -1034,6 +676,10 @@
       <ul>
         
           <li>
+            <a href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">Sobel对图片的边缘检测</a>
+          </li>
+        
+          <li>
             <a href="/2024/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/">卷积神经网络-猫狗识别</a>
           </li>
         
@@ -1049,10 +695,6 @@
             <a href="/2023/07/26/Unity-Shader%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">Unity Shader基础知识</a>
           </li>
         
-          <li>
-            <a href="/2023/06/30/Unity-ShaderGraph-%E5%AE%9E%E7%8E%B0%E6%98%9F%E6%98%9F%E9%97%AA%E7%83%81%E7%89%B9%E6%95%88/">Unity ShaderGraph 实现星星闪烁特效</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1063,7 +705,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a>
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" style="font-size: 10px;">计算机视觉</a>
     </div>
   </div>
 
@@ -1075,7 +717,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024年</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024年</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -1085,7 +727,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 

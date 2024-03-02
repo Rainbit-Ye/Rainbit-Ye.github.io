@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Hello World | 当兵的纸兔子</title>
+  <title>Sobel对图片的边缘检测 | 当兵的纸兔子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
@@ -82,7 +82,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-hello-world" class="h-entry article article-type-post"
+        <section id="main"><article id="post-Sobel对图片的边缘检测" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -91,7 +91,7 @@
           
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Hello World
+      Sobel对图片的边缘检测
     </h1>
   
 
@@ -102,7 +102,7 @@
             
                 <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2022-02-07T09:54:22.000Z" itemprop="datePublished">2022年02月07日</time>
+  <time class="dt-published" datetime="2024-03-02T12:04:01.000Z" itemprop="datePublished">2024年03月02日</time>
 </span>
                   
                     
@@ -115,7 +115,7 @@
 
                         
                           
-<a href="/2022/02/07/hello-world/#comments" class="article-comment-link">
+<a href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/#comments" class="article-comment-link">
   
     
     
@@ -131,21 +131,24 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="HelloWorld"><a href="#HelloWorld" class="headerlink" title="HelloWorld"></a>HelloWorld</h2><p>初次接触Markdown和hexo，记录一下指令用法</p>
-<h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><p>创建一个新的Post</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><p>也可以用<code>hexo s</code></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                  <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>毕设涉及到了对图片的复杂度进行分类判断，和朋友一块讨论了一下</p>
+<p>得出的判断方法是对图片进行Sobel描边处理，对得到的图片像素值进行加和从而分类判断复杂程度</p>
+<p>所以先从Sobel算法开始了解。</p>
+<p>相关资料连接<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/113397988">CV学习笔记（十三）：图像梯度 - 知乎 </a>；<a target="_blank" rel="noopener" href="https://blog.csdn.net/poem_qianmo/article/details/25560901">OpenCV入门教程</a></p>
+<h3 id="什么是Sobel算子"><a href="#什么是Sobel算子" class="headerlink" title="什么是Sobel算子"></a>什么是Sobel算子</h3><p>1、是边缘检测的重要方法之一</p>
+<p>2、与<strong>梯度</strong>密不可分</p>
+<p>那么梯度又是什么呢</p>
+<h4 id="梯度"><a href="#梯度" class="headerlink" title="梯度"></a>梯度</h4><p><strong>数学层面上的梯度</strong></p>
+<p>在高等数学里梯度不是一个实数，他是一个向量，是有方向有大小的。</p>
+<p>假设一二元函数f(x,y)，在某点的梯度有：<br>$$<br>gradf(x,y)&#x3D;\bigtriangledown f(x,y)&#x3D;{\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}}&#x3D;f_x(x,y)\overline i+f_y(x,y)\overline j<br>$$</p>
+<p>整理后得到：<br>$$<br>(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y})^T<br>$$<br>也就是他的方向导数。梯度的方向是函数变化最快的方向，沿着梯度的方向容易找到最大值</p>
+<p><strong>图像梯度</strong></p>
+<p>用导数（梯度），来衡量图像灰度的变化率，其中图像就是函数。</p>
+<p>正因如此，我们引入的图像梯度可以把图像看成二维离散函数，图像梯度其实就是这个二维离散函数的求导。</p>
+<p>将图像函数f(x,y)梯度表达式表示出来<br>$$<br>\bigtriangledown f(x,y)&#x3D;[G_x,G_y]^T&#x3D;[\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}]^T<br>$$<br>幅度与方向角：<br>$$<br>mag(\bigtriangledown f)&#x3D;g(x,y)&#x3D;\sqrt{\frac{\partial^2 f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}}<br>\<br>\phi(x,y)&#x3D;arctan|\frac{\partial f}{\partial x}&#x2F;\frac{\partial f}{\partial y}|<br>$$<br>对于数字图像来说，相当于是二维离散函数求梯度，使用差分来近似导数:<br>$$<br>G_x(x,y)&#x3D;H(x+1,y)-H(x-1,y)\<br>G_y(x,y)&#x3D;H(x,y+1)-H(x,y-1)<br>$$<br>因此，像素点(x,y)处的梯度值和梯度方向分别是：<br>$$<br>G(x,y)&#x3D;\sqrt{G_x(x,y)^2+G_y(x,y)^2}<br>\<br>\alpha(x,y)&#x3D;tan^{-1}(\frac{G_y(x,y)}{G_x(x,y)})<br>$$<br>由推论可以到的梯度的方向是函数变化最快的方向，因此函数存在边缘时，一定有较大的梯度值。</p>
+<h4 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h4><p>1、滤波：边缘检测的算法主要是基于图像强度的一阶和二阶导数（梯度），但导数通常对噪声很敏感，因此必须采用滤波器来改善与噪声有关的边缘检测器的性能</p>
+<p>2、增强：增强边缘的基础是确定图像各点邻域强度的变化值。增强算法可以将图像灰度点邻域强度值有显著变化的点凸显出来。</p>
+<p>3、检测：经过增强的图像，往往邻域中有很多点的梯度值比较大，而在特定的应用中，这些点并不是我们要找的边缘点，所以应该采用某种方法来对这些点进行取舍。</p>
 
                     
                       <div id="toc-article">
@@ -153,7 +156,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#HelloWorld"><span class="toc-text">HelloWorld</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSobel%E7%AE%97%E5%AD%90"><span class="toc-text">什么是Sobel算子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6"><span class="toc-text">梯度</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B"><span class="toc-text">边缘检测</span></a></li></ol></li></ol>
     </div>
   </div>
 
@@ -169,6 +172,8 @@
                     
 
                       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a></li></ul>
+
                         
 
 
@@ -178,15 +183,15 @@
                       
 <nav id="article-nav">
   
-  
-    <a href="/2022/05/07/%E6%9C%89%E9%99%90%E7%8A%B6%E6%80%81%E6%9C%BA/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">newer</strong>
+    <a href="/2024/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">
         
-          Unity有限状态机
+          卷积神经网络-猫狗识别
         
       </div>
     </a>
+  
   
 </nav>
 
