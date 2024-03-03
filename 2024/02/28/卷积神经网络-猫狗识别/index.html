@@ -202,17 +202,18 @@
 <li>未进行过拟合处理的数据</li>
 </ul>
 <center>
-<div style="display:inline-block"><img src="../img/CNN/myplot.png" width="300" title="未进行过拟合处理的准确率"></div>
-<div style="display:inline-block"><img src="../img/CNN/myplot1.png" width="300"  title="未进行过拟合处理的损失率"> </div>
-<div style="float:none;clear:both;"></div>
-</center>
-- 过拟合处理后的数据
-<center>
-<div style="display:inline-block"> <img src="../img/CNN/myplot01.png" width="300" title="进行过拟合处理的准确率"> </div>  
-<div style="display:inline-block"> <img src="../img/CNN/myplot00.png" width="300"  title="进行过拟合处理的损失率"> </div>
+<div style="display:inline-block"><img src="/../img/CNN/myplot.png" width="300" title="未进行过拟合处理的准确率"></div>
+<div style="display:inline-block"><img src="/../img/CNN/myplot1.png" width="300"  title="未进行过拟合处理的损失率"> </div>
 <div style="float:none;clear:both;"></div>
 </center>
 
+<ul>
+<li>过拟合处理后的数据<center>
+<div style="display:inline-block"> <img src="/../img/CNN/myplot01.png" width="300" title="进行过拟合处理的准确率"> </div>  
+<div style="display:inline-block"> <img src="/../img/CNN/myplot00.png" width="300"  title="进行过拟合处理的损失率"> </div>
+<div style="float:none;clear:both;"></div>
+</center></li>
+</ul>
 <p>由于我的训练集非常小只有20张照片，因此出现极大误差。但四张图对比可知过拟合处理可以<strong>明显的改善</strong>数据的准确性。</p>
 <h4 id="数据增强"><a href="#数据增强" class="headerlink" title="数据增强"></a>数据增强</h4><p>深度学习中最依赖数据量，将数据进行变换（如图像镜像翻转，放大缩小），就可以使数据量翻倍</p>
 <h4 id="过拟合解决方案"><a href="#过拟合解决方案" class="headerlink" title="过拟合解决方案"></a>过拟合解决方案</h4><p>训练集上准确率接近0.99效果很好，验证集达到0.74，差异很大。说明出现过拟合</p>
