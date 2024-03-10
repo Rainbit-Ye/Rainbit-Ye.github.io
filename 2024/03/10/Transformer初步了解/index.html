@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Transformer初步了解 | 当兵的纸兔子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="当兵的纸兔子" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">当兵的纸兔子</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">多才多艺而非不顾正业</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Transformer初步了解" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Transformer初步了解
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2024-03-10T08:47:30.000Z" itemprop="datePublished">2024年03月10日</time>
+</span>
+                  
+                    
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
+                          
+<a href="/2024/03/10/Transformer%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在b站上看了<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Di4y1c7Zm/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">Transformer从零详细解读</a>和<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1ih4y1J7rx/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">超强动画，一步一步深入浅出解释Transformer原理！</a>总之是能够基本大致上了解Transformer的流程和原理，但应用尚未涉及。在此先对原理进行记录。</p>
+<p>里程碑论文： <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></p>
+<span id="more"></span>
+
+<h3 id="关于Transformer能干啥"><a href="#关于Transformer能干啥" class="headerlink" title="关于Transformer能干啥"></a>关于Transformer能干啥</h3><p>至于Transformer能干啥？目前已有的Transformer开源代码和模型里自然语言处理任务占主导地位，随后是计算机视觉和语音信号处理，最后自然而然进行多模态信号处理，推荐系统中的序列建模也逐步开始应用Transformer等等。</p>
+<p>前几年很火的创作软件，将一句话扔到软件里，给几个关键词，app就会给出一篇文章。虽然不清楚app本身是用什么算法实现的，但我认为可以带入到Transformer中。</p>
+<p>如下图所示，输入As aliens entered our planet 通过transformer后，他会给我生成一段扩充文字。这便是Transformer最基本的应用之一。除此之外还有翻译等自然语言处理，音乐生成上也有应用，在2018年就有提出Music Transformer用来音乐生成、伴奏制作[1]。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/Trm/18a786dad9ed9221c9f9d437545d0c7.png" width="500" title="transformer自然语言处理生成文字流程"></div>
+</center>
+
+<center style="font-size: 15px">transformer自然语言处理生成文字流程</center>
+
+
+
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>直接放上原文的流程图，可以看到左半部分是Encoders，右半部分是Decoders（因为是由N个组成的所以是复数，原文中使用了六个），而在右半部分可以看到多了一个交互的Multi-Head Attention层，是用来接受Encoders传来的K和V的值；并且在原本的Multi-Head Attention中多了一个Masked，是用来遮蔽未来的标记（我知道描述的可能很谜语人）。接下来会分部分记录。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/Trm/b3190d21c93c87512ffd4f6e5d03ac2.png" width="300" title="transformer"></div>
+</center>
+
+
+
+<h4 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h4><p>Encoder分为三个部分：输入，注意力机制和前馈神经网络</p>
+<ul>
+<li><p>输入</p>
+<blockquote>
+<p>分为Embedding和位置嵌入</p>
+<ul>
+<li><p>Embedding层，在某种程度上，就是用来降维的，降维的原理就是<strong>矩阵乘法</strong>；一个类比，embedding后的结果类比是字典的词条，计算机（大模型）可以通过词条找到词义。embedding的过程就是创造词条的过程。</p>
+</li>
+<li><p>与RNN不用，RNN按时间线展开，具有顺序。而Transformer具有并行性，需要位置编码<br>$$<br>PE_{pos,2i}&#x3D;sin(\frac{pos}{10000^{2i&#x2F;d}model})\\<br>PE_{pos,2i+1}&#x3D;cos(\frac{pos}{10000^{2i&#x2F;d}model})<br>$$<br>其中可以将2i看作偶数，2i+1看作奇数，便可得到位置编码的维度，然后再将位置编码与embedding相加，最终得到一个维度作为整个Transformer的输入。</p>
+</li>
+<li><p>根据高中数学的sin，cos三角函数展开$cos(\alpha+\beta)&#x3D;cos\alpha cos\beta-sin\alpha sin\beta$和$sin(\alpha+\beta)&#x3D;cos\alpha sin\beta+sin\alpha cos\beta$以此类推如：我爱你中的“我（pos）”，爱是“爱（k）”，你便是“你（pos+k）”</p>
+</li>
+</ul>
+</blockquote>
+</li>
+<li><p>注意力机制</p>
+<blockquote>
+<p>三个重点：QKV三个矩阵，通过softmax我们可以得到一个0-1之间的向量<br>$$<br>Attention(Q,K,V)&#x3D;softmax(\frac{QK^T}{\sqrt{d_k}})V<br>$$<br>其中Q和K的点乘结果可以理解为两个向量的相似度，两个向量越相似，点乘的结果越大，说明对其更加关注。最后于V相乘便可以得到最终的AttentionValue。下图是视频教学中我觉得可以封神的一张图，结合这张图超好理解这个公式。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/Trm/71994e97de533680350137789d00eb8.png" width="300" title="QKV"></div>
+</center>
+
+<ul>
+<li><p>Q和K相乘的结果很大，softmax得出来的结果值很小，为了控制方差为1，所以进行$\sqrt{d_k}$处理</p>
+</li>
+<li><p>如何获取Q，K，V</p>
+</li>
+</ul>
+<p> 其中QKV的值是将输入得到的Embedding向量进行矩阵相乘，$Q&#x3D;Embedding\times W^Q$,$K&#x3D;Embedding\times W^k$，$V&#x3D;Embedding\times W^v$</p>
+<ul>
+<li>多头注意力机制将信息放到打到不同的空间，设置两套不同的QTV，最终得到多个Z，合在一起得到多头注意机制的输出</li>
+</ul>
+</blockquote>
+</li>
+<li><p>残差和LayerNormalization（前馈神经网络）</p>
+<blockquote>
+<ul>
+<li><p>残差，x作为输入经过两层网络，两层网络可以归纳成$f(x)$，残差网络相当于F(x)加上x（原封不动的拿过来）</p>
+<center>
+<div style="display:inline-block"><img src="/../img/Trm/c77fb96441eafd273d2c8a6712e3028.png" width="300" title="残差1"></div>
+</center></br>
+<center>
+<div style="display:inline-block"><img src="/../img/Trm/99b815aada57fb3c1434910555e33cc.png" width="300"  title="残差2"> </div>
+<div style="float:none;clear:both;"></div>
+ </center>
+
+<p>残差网络为什么会有用，由公式推导可知，根据后向传播的链式法则：<br>$$<br>\frac{\partial{L}}{\partial X_{Aout}}&#x3D;\frac{\partial{L}}{\partial X_{Din}}\frac{\partial X_{Din}}{\partial X_{Aout}}<br>$$<br>由图可知$X_{Din}&#x3D;X_{Aout}+C(B(X_{Aout}))$，带入可得<br>$$<br>\frac{\partial{L}}{\partial X_{Aout}}&#x3D;\frac{\partial{L}}{\partial X_{Din}}[1+\frac{\partial{X_{Din}}}{\partial X_{c}}\frac{\partial{X}<em>c}{\partial X</em>{B}}\frac{\partial{X_B}}{\partial X_{Aout}}]<br>$$<br>梯度消失的一般情况下原因是连乘导致梯度消失，而在公式中有1保证梯度不会趋近于0，因此残差可以缓解梯度消失</p>
+</li>
+<li><p>BN在batch的维度上进行归一化，LN在layer的维度上进行归一化，从代码也可以看出，求均值和方差的维度不同，BN是在batch维，LN是在feature维。但在Transformer中应用BN并不好用，原因是前向和反向传播中，batch统计量及其梯度都不太稳定。<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/492803886">Transformer中的归一化(五)：Layer Norm的原理和实现 &amp; 为什么Transformer要用LayerNorm</a></p>
+</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h4><p>与Encoder相同都是由N个大模块堆叠而成，重点在于Mask和中间的交互层部分</p>
+<ul>
+<li><p>Mask</p>
+<blockquote>
+<p> 如果不进行Mask处理，那么在训练时和测试时会出现误差。因为未来所需要预测的单词在训练中可以看到，为了保证一致性，我们需要将未来预测到的单词覆盖掉。掩盖式的注意力机制。</p>
+</blockquote>
+</li>
+<li><p>交互层部分 </p>
+<blockquote>
+<p>所有的encoders的输出与每一个decoder进行交互。</p>
+<p>encoder生成的是K V矩阵，在decoder生成的是Q矩阵，主要是实现多头注意力机制的矩阵计算。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/Trm/7ae50f4c67cdae0342cacfc1517ad76.png" width="500" title="交互层"></div>
+</center></blockquote>
+</li>
+</ul>
+<p>[1]Huang, C. Z. A., Vaswani, A., Uszkoreit, J., Shazeer, N., Simon, I., Hawthorne, C., … &amp; Dahl, G. E. (2018). Music <a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=transformer&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:3377172366%7D">transformer</a>: Generating music with long-term structure. arXiv preprint arXiv:1809.04281.</p>
+
+                    
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8ETransformer%E8%83%BD%E5%B9%B2%E5%95%A5"><span class="toc-text">关于Transformer能干啥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84"><span class="toc-text">结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Encoder"><span class="toc-text">Encoder</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Decoder"><span class="toc-text">Decoder</span></a></li></ol></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                      
+<nav id="article-nav">
+  
+    <a href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          Sobel对图片的边缘检测
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+                        
+                          
+                            
+
+
+
+
+
+
+
+
+                              
+          </footer>
+  </div>
+</article></section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/03/10/Transformer%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/">Transformer初步了解</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">Sobel对图片的边缘检测</a>
+          </li>
+        
+          <li>
+            <a href="/2024/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/">卷积神经网络-猫狗识别</a>
+          </li>
+        
+          <li>
+            <a href="/2024/02/04/MusicLM-Generating-Music-From-Text-%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">MusicLM: Generating Music From Text 文章整理</a>
+          </li>
+        
+          <li>
+            <a href="/2024/02/01/AI%E7%94%9F%E6%88%90%E9%9F%B3%E4%B9%90%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/">AI生成音乐初步了解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 16.67px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 13.33px;">Unity Shader</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" style="font-size: 10px;">计算机视觉</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024年</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2024 Rainbit.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+  <script src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML" async type="text/javascript"></script>
+
+</body>
+</html>
