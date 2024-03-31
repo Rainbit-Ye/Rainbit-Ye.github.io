@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Unity的Raw Image实现画布同步 | 当兵的纸兔子</title>
+  <title>UnityShader渲染天空云体 | 当兵的纸兔子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
@@ -82,7 +82,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Unity的Raw-Image实现画布同步" class="h-entry article article-type-post"
+        <section id="main"><article id="post-UnityShader渲染天空云体" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -91,7 +91,7 @@
           
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Unity的Raw Image实现画布同步
+      UnityShader渲染天空云体
     </h1>
   
 
@@ -102,7 +102,7 @@
             
                 <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2022-12-05T00:56:15.000Z" itemprop="datePublished">2022年12月05日</time>
+  <time class="dt-published" datetime="2024-03-31T09:51:59.000Z" itemprop="datePublished">2024年03月31日</time>
 </span>
                   
                     
@@ -115,7 +115,7 @@
 
                         
                           
-<a href="/2022/12/05/Unity%E7%9A%84Raw-Image%E5%AE%9E%E7%8E%B0%E7%94%BB%E5%B8%83%E5%90%8C%E6%AD%A5/#comments" class="article-comment-link">
+<a href="/2024/03/31/UnityShader%E6%B8%B2%E6%9F%93%E5%A4%A9%E7%A9%BA%E4%BA%91%E4%BD%93/#comments" class="article-comment-link">
   
     
     
@@ -131,18 +131,44 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在Unity中有一种UI组件是<code>Raw Image</code>，与Image组件相比<br>Raw Image不支持交互，可用于显示任何图片<br>一般用在背景、图标上,支持UV Rect(用来设置只显示图片的某一部分)<br>通常可以用于将3D物体转换为2D图片</p>
+                  <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在做毕设的后期处理渲染部分，使用的是Unity的URP渲染管线，我觉得Unity URP自带的天空盒没有云 稍微有点丑。上网查资料和学习试着做了一个云的Shader渲染。</p>
+<p>立个flag：过一阵子有时间想学习试着写一个程序化天空盒。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/660806535">Unity-URP-原神风格程序化天空盒-（1）纸片卡通云 - 知乎 (zhihu.com)</a></p>
 <span id="more"></span>
-<p>基于这样的特征理念，可以实现画布同步的效果<br>即 当我在unity打开画布进行绘制后，实时保存绘画信息。</p>
-<p>就像《饥饿派画家 Passpartout: The Starving Artist》中那样，可以将画好的绘制细节保留下来，同时不影响与其他事件产生的交互<br><img src="/../img/%E9%A5%A5%E9%A5%BF%E6%B4%BE%E7%94%BB%E5%AE%B6.jpg" alt="饥饿派画家游戏图"></p>
-<h3 id="设计实现"><a href="#设计实现" class="headerlink" title="设计实现"></a>设计实现</h3><p>启发来自于<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37179591/article/details/118148818?ops_request_misc=&request_id=&biz_id=102&utm_term=rawimage%E4%BD%BF%E7%94%A8%E6%98%BE%E7%A4%BA%E6%A8%A1%E5%9E%8B&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-118148818.142%5Ev88%5Econtrol,239%5Ev2%5Einsert_chatgpt&spm=1018.2226.3001.4187">Unity中将3D模型显示在UI上或者显示在UI前面</a></p>
-<p>按照上述链接的流程，在Assets中创建一个<code>renderTextrue</code><br><img src="/../img/RawImage/rawimage0.png" alt="创建renderTexture"></p>
-<p>随后在<code>Hierarchy</code>中添加一个<code>RawImage</code>组件，放在场景的画板上<br>在<code>RawImage</code>组件的<code>Textrue</code>中将刚刚创建的<code>renderTextrue</code>拖上去</p>
-<p>在场景中单独创建一个<code>Canvas</code> 实现画笔绘画的操作代码<br>代码有参考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1uD4y197K7/?share_source=copy_web&vd_source=2cf49e9f6b04f274596d5dc37336cd1e">unity简单涂鸦制作</a></p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Draw</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isOnUI())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (Input.GetMouseButtonDown(<span class="number">0</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                GameObject cloneLine = Instantiate(originLine,line);</span><br><span class="line">                selfLine = cloneLine.GetComponent&lt;LineRenderer&gt;();</span><br><span class="line">                selfLine.SetColors(changeColor.lineColor, changeColor.lineColor);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (Input.GetMouseButton(<span class="number">0</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                Vector3 desPos = Input.mousePosition;</span><br><span class="line">                desPos.z = <span class="number">5</span>;</span><br><span class="line">                Vector3 worldPos = Camera.main.ScreenToWorldPoint(desPos);</span><br><span class="line">                posList.Add(worldPos);</span><br><span class="line">                selfLine.positionCount = posList.Count;</span><br><span class="line">                selfLine.SetPositions(posList.ToArray());</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (Input.GetMouseButtonUp(<span class="number">0</span>))</span><br><span class="line">            &#123;</span><br><span class="line">                posList.Clear();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>最终效果如下<br><img src="/../img/RawImage/yanshi.gif" alt="演示"></p>
-<p>收工~</p>
+<h4 id="素材处理以及Shader流程思路"><a href="#素材处理以及Shader流程思路" class="headerlink" title="素材处理以及Shader流程思路"></a>素材处理以及Shader流程思路</h4><p>素材的云朵颜色很奇怪，很明显不是我们所常见的白色的云。将云朵的RGBA四个通道拆开可以发现</p>
+<ul>
+<li>R通道包含了云朵的亮暗信息</li>
+<li>G通道包含了云朵描边的高光阴影</li>
+<li>B通道包含了云朵符号距离函数（sign distance function SDF：在空间中的一个有限区域上确定一个点到区域边界的距离并同时对距离的符号进行定义：点在区域边界内部为正，外部为负，位于边界上时为0）</li>
+<li>A通道包含了云的范围钳制</li>
+</ul>
+<center>
+<div style="display:inline-block"><img src="/../img/Shader cloud/cbc6118f5a35ee031846059e6705bf7.png" width="300" title="RBGA通道"></div>
+</center>
+
+
+<p>通过控制这四个通道，从而获得一个云朵的光照&#x2F;动态效果。在这里不得不感叹一句想到用这个方法的人真的是天才。</p>
+<h4 id="顶点着色器部分"><a href="#顶点着色器部分" class="headerlink" title="顶点着色器部分"></a>顶点着色器部分</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Varyings vert(Attributes v)</span><br><span class="line">           &#123;</span><br><span class="line">               Varyings o = (Varyings)0;</span><br><span class="line"> </span><br><span class="line">               o.positionCS = TransformObjectToHClip(v.positionOS.xyz);</span><br><span class="line">               o.positionWS = TransformObjectToWorld(v.positionOS.xyz);</span><br><span class="line"></span><br><span class="line">          </span><br><span class="line">               o.uv =  v.texUV2;</span><br><span class="line">               o.noiseuv =  TRANSFORM_TEX(v.texUV2, _NoiseMap);</span><br><span class="line">               o.noiseuv = o.noiseuv * _NoiseMap_ST.xy + _NoiseMap_ST.zw + _Time.x * _MoveSpeed;</span><br><span class="line">               return o;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这里得到需要的裁切坐标和世界坐标,UV坐标,以及对噪波UV添加时间因子通过修改_MoveSpeed来让它持续偏移</p>
+<h4 id="片元着色器部分"><a href="#片元着色器部分" class="headerlink" title="片元着色器部分"></a>片元着色器部分</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">float3 LightDirection = lerp(_SunDirection.xyz,_MoonDirection.xyz,_SunMoon);</span><br><span class="line"></span><br><span class="line">          float3 SunDirection = clamp((dot(normalize(i.positionWS),LightDirection.xyz)),0,1);</span><br><span class="line">                 SunDirection =  pow(SunDirection,2);</span><br></pre></td></tr></table></figure>
+
+<p>LightDirection：_SunMoon是日月唯一光方向切换，这里用lerp0-1来进行抉择当前是月光方向还是日光方向，从而控制当前光线的在场景中的占比</p>
+<p>SunDirection：用顶点世界位置点乘光线方向，就能得到模拟太阳的一个圆形照射范围，在布林冯光照模型中较常用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">float3  CloudColorAB = lerp(_CloudColorA,_CloudColorB,SunDirection.x) ;</span><br><span class="line">float3  CloudColorCD = lerp(_CloudColorC,_CloudColorD,SunDirection.x) ;</span><br><span class="line">     </span><br><span class="line">float4 Noise = tex2D(_NoiseMap,i.noiseuv);</span><br><span class="line">  </span><br><span class="line">            </span><br><span class="line">float UVdisturbance =  remap(Noise.b,0,1,0,0.03);</span><br><span class="line">float4 baseMap = tex2D(_CloudMap, i.uv + UVdisturbance);</span><br></pre></td></tr></table></figure>
+
+<p>CloudColorAB和CloudColorCD通过得到的模拟太阳的圆形照射范围来计算离太阳远近云的颜色 对太阳远近光照进行插值处理，获取噪声贴图，使用remap映射从（0-1）重映射到0-0.03，使用这个扰动来影响云朵贴图，实现微弱的云朵飘动效果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">float baseMapSMstep = smoothstep(clamp((_Cloud_SDF_TSb-0.08),0,1.5),_Cloud_SDF_TSb,baseMap.b);</span><br><span class="line">     </span><br><span class="line"></span><br><span class="line">float3  CloudColor = lerp(CloudColorAB,CloudColorCD,baseMap.r) ;</span><br><span class="line">float3  EdgeColor = _Cloud_edgeColor * baseMap.g * SunDirection.x;</span><br><span class="line">CloudColor = CloudColor + EdgeColor;</span><br><span class="line"></span><br><span class="line">           </span><br><span class="line"> return float4(  CloudColor,baseMapSMstep*baseMap.a);</span><br></pre></td></tr></table></figure>
+
+<p>随后拿一个0-1.5的范围，这个范围的差值是0.08，来做SDF（B通道）的smoothstep，并且clamp一下，避免它小于0。最后将得到的颜色与亮暗信息（R通道）相乘，边缘颜色与G通道相乘，最后得到效果图。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/Shader cloud/d00b6a53cdd79d03b80a0924fb4f271.png" width="500" title="JSB数据集处理"></div>
+</center>
+
+
+<p>最后结合Animator给云朵制作动画，完成昼夜交替。</p>
+<p>K动画真的需要耐心！（我要是能写一个程序化天空盒控制日光颜色就好了，可惜才疏学浅还需要继续努力。</p>
 
                     
                       <div id="toc-article">
@@ -150,7 +176,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E8%AE%A1%E5%AE%9E%E7%8E%B0"><span class="toc-text">设计实现</span></a></li></ol></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A0%E6%9D%90%E5%A4%84%E7%90%86%E4%BB%A5%E5%8F%8AShader%E6%B5%81%E7%A8%8B%E6%80%9D%E8%B7%AF"><span class="toc-text">素材处理以及Shader流程思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B6%E7%82%B9%E7%9D%80%E8%89%B2%E5%99%A8%E9%83%A8%E5%88%86"><span class="toc-text">顶点着色器部分</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%87%E5%85%83%E7%9D%80%E8%89%B2%E5%99%A8%E9%83%A8%E5%88%86"><span class="toc-text">片元着色器部分</span></a></li></ol></li></ol>
     </div>
   </div>
 
@@ -166,7 +192,7 @@
                     
 
                       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a></li></ul>
 
                         
 
@@ -177,24 +203,15 @@
                       
 <nav id="article-nav">
   
-    <a href="/2022/09/18/RPG%E7%B1%BB%E6%B8%B8%E6%88%8F%E8%AF%BB%E5%8F%96%E5%AF%B9%E8%AF%9D%E6%96%87%E6%9C%AC/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2024/03/19/MUSIC-TRANSFORMER-%E8%A7%A3%E8%AF%BB/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">
         
-          RPG类游戏读取对话文本
+          MUSIC TRANSFORMER 解读
         
       </div>
     </a>
   
-  
-    <a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">newer</strong>
-      <div class="article-nav-title">
-        
-          立绘干货
-        
-      </div>
-    </a>
   
 </nav>
 

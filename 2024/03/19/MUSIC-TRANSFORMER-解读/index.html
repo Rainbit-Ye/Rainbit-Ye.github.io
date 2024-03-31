@@ -132,6 +132,7 @@
           <div class="e-content article-entry" itemprop="articleBody">
             
                   <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>通过对Transformer的学习和了解之后，进一步对Transformer对音乐生成的方法进行学习了解，本文算是对文章MUSIC TRANSFORMER:GENERATING MUSIC WITH LONG-TERM STRUCTURE的记录笔记。</p>
+<p>参考博客：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/542175873">Music Transformer：生成具有宏观结构的音乐 - 知乎 (zhihu.com)</a></p>
 <h4 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h4><p>音乐创作的过程中，相对时机的掌握至关重要，现有的Transformer中表示相对位置信息的方法是根据成对的距离调节注意力[[1]](<a target="_blank" rel="noopener" href="https://magenta.tensorflow.org/2016/07/15/lookback-rnn-attention-rnn">Generating Long-Term Structure in Songs and Stories (tensorflow.org)</a>)，而文章出了一种算法，将原来中间相关信息记忆复杂性从是序列的二次方减少到与序列线性相关</p>
 <span id="more"></span>
 
@@ -203,10 +204,19 @@
 <center>
 <div style="display:inline-block"><img src="/../img/Trm/888a8428e80f56519a0cefbd4d6b395.png" width="800" title="流程"></div>
 </center>
+从文中指出，过程中计算中间张量 $R$ 的步骤是导致较高复杂度的主要原因。作者的主要想法是，所有在 $QR^T$ 中需要的项均已在 $QE^{rT}$中。因此，选择直接计算$QE^{rT}$，得到Query的绝对坐标嵌入与相对位置的内积矩阵；随后进行偏移变换（skew）的方式进行计算。
 
 
+<h4 id="实验数据"><a href="#实验数据" class="headerlink" title="实验数据"></a>实验数据</h4><p>实验表明做以上修改后相对注意力机制比baseline Transformer</p>
+<ul>
+<li>极大的提高了负相对似然数</li>
+<li>在全局层面上捕获时序</li>
+<li>样本可以保持必要的时间&#x2F;声部网格结构</li>
+</ul>
+<p>同时作者也对绝对时值进行研究，并用Concat 操作来替代正弦曲线，也取得了一定优化效果</p>
+<p>与LSTM相比，文章的模型更加稳定，不会出现像LSTM那样，一定时间后会出现乱码数据。而使用本文中提出的方法可以使其更稳定。</p>
+<p>给定旋律进行伴奏创作的情况下，Music Transformer相比baseline也在NLL上有很大提升。</p>
 
-<h4 id="实验数据"><a href="#实验数据" class="headerlink" title="实验数据"></a>实验数据</h4>
                     
                       <div id="toc-article">
                         
@@ -250,6 +260,15 @@
     </a>
   
   
+    <a href="/2024/03/31/UnityShader%E6%B8%B2%E6%9F%93%E5%A4%A9%E7%A9%BA%E4%BA%91%E4%BD%93/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">newer</strong>
+      <div class="article-nav-title">
+        
+          UnityShader渲染天空云体
+        
+      </div>
+    </a>
+  
 </nav>
 
                         
@@ -277,6 +296,10 @@
       <ul>
         
           <li>
+            <a href="/2024/03/31/UnityShader%E6%B8%B2%E6%9F%93%E5%A4%A9%E7%A9%BA%E4%BA%91%E4%BD%93/">UnityShader渲染天空云体</a>
+          </li>
+        
+          <li>
             <a href="/2024/03/19/MUSIC-TRANSFORMER-%E8%A7%A3%E8%AF%BB/">MUSIC TRANSFORMER 解读</a>
           </li>
         
@@ -292,10 +315,6 @@
             <a href="/2024/02/28/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C-%E7%8C%AB%E7%8B%97%E8%AF%86%E5%88%AB/">卷积神经网络-猫狗识别</a>
           </li>
         
-          <li>
-            <a href="/2024/02/04/MusicLM-Generating-Music-From-Text-%E6%96%87%E7%AB%A0%E6%95%B4%E7%90%86/">MusicLM: Generating Music From Text 文章整理</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -306,7 +325,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 16.67px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 13.33px;">Unity Shader</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" style="font-size: 10px;">计算机视觉</a>
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 15px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 15px;">Unity Shader</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" style="font-size: 10px;">计算机视觉</a>
     </div>
   </div>
 
@@ -318,7 +337,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024年</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -328,7 +347,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
