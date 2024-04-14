@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Unity RendererFeature 笔记 | 当兵的纸兔子</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
+  
+  
+  
+    <link rel="alternate" href="/atom.xml" title="当兵的纸兔子" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">当兵的纸兔子</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">多才多艺而非不顾正业</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        
+          <a class="main-nav-link" href="/."><i class="fa fa-home"></i> Home</a>
+        
+          <a class="main-nav-link" href="/archives/"><i class="fa fa-archive"></i> Archive</a>
+        
+          <a class="main-nav-link" href="/about/"><i class="fa fa-user"></i> About</a>
+        
+      </nav>
+    </div>
+    <div id="search-form">
+      <div id="result-mask" class="hide"></div>
+      <label><input id="search-key" type="text" autocomplete="off" placeholder="search"></label>
+      <div id="result-wrap" class="hide">
+        <div id="search-result"></div>
+      </div>
+      <div class="hide">
+        <template id="search-tpl">
+          <div class="item">
+            <a href="/{path}" title="{title}">
+              <div class="title">{title}</div>
+              <div class="time">{date}</div>
+              <div class="tags">{tags}</div>
+            </a>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-Unity-RendererFeature-笔记" class="h-entry article article-type-post"
+  itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner">
+    
+      
+        <header class="article-header">
+          
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Unity RendererFeature 笔记
+    </h1>
+  
+
+
+        </header>
+        
+          <div class="article-meta">
+            
+                <span class="article-date">
+  <i class="fa fa-date"></i>
+  <time class="dt-published" datetime="2024-04-11T01:27:44.000Z" itemprop="datePublished">2024年04月11日</time>
+</span>
+                  
+                    
+                      <span class="article-views">
+  <i class="fa fa-views"></i>
+  <i id="busuanzi_container_page_pv">
+      <i id="busuanzi_value_page_pv"></i>
+  </i>
+</span>
+
+                        
+                          
+<a href="/2024/04/11/Unity-RendererFeature-%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">
+  
+    
+    
+    
+    
+    
+  
+  <i class="fa fa-commt"></i>
+  Guestbook
+</a>
+
+
+          </div>
+          <div class="e-content article-entry" itemprop="articleBody">
+            
+                  <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>最近项目需要用到RendererFeature，想起来找个时间总结一下。</p>
+<p>参考[Unity URP 自定义RendererFeature笔记 - 知乎 (zhihu.com)](<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/675758658#:~:text=Unity%E4%B8%AD%E7%9A%84RendererFeature%E6%98%AF%E4%B8%80%E4%B8%AA%E5%85%81%E8%AE%B8%E5%BC%80%E5%8F%91%E8%80%85%E5%9C%A8%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B8%B2%E6%9F%93%E6%95%88%E6%9E%9C%E7%9A%84%E5%8A%9F%E8%83%BD%E3%80%82,%E6%98%AF%E4%B8%80%E7%A7%8D%E8%87%AA%E5%AE%9A%E4%B9%89%E5%92%8C%E6%89%A9%E5%B1%95Unity%E7%9A%84URP%EF%BC%88%E9%80%9A%E7%94%A8%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%EF%BC%89%E6%88%96%E8%80%85HDRP%EF%BC%88%E9%AB%98%E6%B8%85%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF%EF%BC%89%E7%9A%84%E6%96%B9%E5%BC%8F%E3%80%82">https://zhuanlan.zhihu.com/p/675758658#:~:text=Unity中的RendererFeature是一个允许开发者在渲染管线中添加自定义渲染效果的功能。,是一种自定义和扩展Unity的URP（通用渲染管线）或者HDRP（高清渲染管线）的方式。</a> 开发者可以通过编写自定义的RendererFeature来实现特殊的图像效果，如后处理效果、特殊光照效果等。)</p>
+<span id="more"></span>
+
+<h4 id="什么是RenderFeature"><a href="#什么是RenderFeature" class="headerlink" title="什么是RenderFeature"></a>什么是RenderFeature</h4><p>RenderFeature是Unity提供的允许我们对URP渲染管线进行额外的添加自定义渲染效果的功能。</p>
+<p>我们可以通过编写自定义的RendererFeature的方式实现特殊效果。</p>
+<p>借<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/396965255">猫都能看懂的URP RenderFeature使用及自定义方法</a>的文章来更加形象的表明一下文字过程描述</p>
+<blockquote>
+<p>首先简单比喻一下渲染管线的工作流程：</p>
+<p><strong>大脑（CPU）</strong>想好如何画一幅画面的<strong>流程（Pipeline）</strong>之后，把画画需要的一连串包含<strong>数据（CommandBuffer）</strong>和指定<strong>方式（Shader）</strong>的指令发送给<strong>手（GPU）</strong>，手再画到<strong>纸（屏幕）</strong>上。</p>
+<p>RenderFeature让我们可以直接思维干涉，<strong>重新组织</strong>这个<strong>流程</strong>，当然也可以自定义<strong>数据</strong>和<strong>方式</strong>。</p>
+<p>比如原先的流程是：先画阴影，再画不透明物体，然后画半透明物体，最后画天空盒，最好还有点儿后处理。</p>
+<p>比如把流程变成：先画阴影，再画不透明物体，<strong>等一下我要给不透明物体描个边！</strong>，然后画半透明物体，最后画天空盒，最好还有点儿后处理。（当然会发现描边最后被半透明物体和天空盒挡住了）</p>
+</blockquote>
+<h4 id="Render-Feature-代码基本结构"><a href="#Render-Feature-代码基本结构" class="headerlink" title="Render Feature 代码基本结构"></a>Render Feature 代码基本结构</h4><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> UnityEngine;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.Rendering;</span><br><span class="line"><span class="keyword">using</span> UnityEngine.Rendering.Universal;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">CustomRenderPassFeature</span> : <span class="title">ScriptableRendererFeature</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">CustomRenderPass</span> : <span class="title">ScriptableRenderPass</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//资源初始化</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraSetup</span>(<span class="params">CommandBuffer cmd, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//执行逻辑</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params">ScriptableRenderContext context, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//资源释放</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraCleanup</span>(<span class="params">CommandBuffer cmd</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    CustomRenderPass m_ScriptablePass;</span><br><span class="line">	<span class="comment">//RendererFeature被创建时初始化的函数</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">Create</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        m_ScriptablePass = <span class="keyword">new</span> CustomRenderPass();</span><br><span class="line">        m_ScriptablePass.renderPassEvent = RenderPassEvent.AfterRenderingOpaques;</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//向渲染管线中加入Pass</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">AddRenderPasses</span>(<span class="params">ScriptableRenderer renderer, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        renderer.EnqueuePass(m_ScriptablePass);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">SetupRenderPasses</span>(<span class="params">ScriptableRenderer renderer, <span class="keyword">in</span> RenderingData renderingData</span>)</span></span><br><span class="line">	&#123;</span><br><span class="line">        <span class="comment">// 在12之后提供了该接口，本质上是AddRenderPasses的拆分，</span></span><br><span class="line">        <span class="comment">//在旧版本m_ScriptablePass.Setup(renderer.cameraColorTarget)方法，</span></span><br><span class="line">        <span class="comment">//和renderer.EnqueuePass(m_ScriptablePass)方法应一起写在AddRenderPasses中</span></span><br><span class="line">        <span class="comment">//现版本新增了SetupRenderPasses()方法进行使用SetUp方法</span></span><br><span class="line">        renderer.EnqueuePass(m_ScriptablePass);</span><br><span class="line"></span><br><span class="line">        m_CustomPass.Setup(renderer.cameraColorTarget);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Unity通过菜单创建的RendererFeature是将RenderPass嵌套在RenderFeature中的。追求更规范的写法，可以分开来创建两个C#脚本，会更加清晰。</p>
+<h4 id="Renderer-Texture"><a href="#Renderer-Texture" class="headerlink" title="Renderer Texture"></a>Renderer Texture</h4><p>RendererFeature继承于ScriptableRenderPass，其中ScriptableRenderPass继承于ScriptableObject ，会将其保存为资产。</p>
+<p>如果需要对来自场景的对象进行引用，为了方便使用，可以将字段包装在序列化类中</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[[System.Serializable]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Settings</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> LayerMask layerMask = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">public</span> Material overrideMaterial;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> Settings settings;]</span><br></pre></td></tr></table></figure>
+
+<h4 id="RenderPass"><a href="#RenderPass" class="headerlink" title="RenderPass"></a>RenderPass</h4><p>在Unity中，RenderPass是Unity渲染管线的一个重要概念，特别是在使用通用渲染管线（URP）或高清渲染管线（HDRP）时。RenderPass指的是渲染过程中的一个阶段，它定义了一系列渲染操作，这些操作针对场景中的一部分或全部进行处理。每个RenderPass都可以执行特定的任务，例如渲染场景中的不透明物体、渲染透明物体、执行后处理效果等。通过组合多个RenderPass，Unity能够以高效和灵活的方式构建复杂的渲染管线。</p>
+<h5 id="RenderPassEvent"><a href="#RenderPassEvent" class="headerlink" title="RenderPassEvent"></a>RenderPassEvent</h5><p>控制渲染通道应该在什么时候执行</p>
+<p>在Unity-Window-Analogy-Frame Debug里面可以看到渲染管线的渲染顺序</p>
+<p>可以看到我将我自己自定义的名为“cmd”的pass放到了渲染之后 代码片段：<code>pass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing</code></p>
+<center>
+<div style="display:inline-block"><img src="../img/Render/daf9912492e2275c6d5c8b729c6440e.png" width="300" title="FrameDebuger"></div>
+</center>
+
+<h5 id="RenderingData"><a href="#RenderingData" class="headerlink" title="RenderingData"></a>RenderingData</h5><p>作用：存放渲染相关数据。</p>
+<p>一般使用<code>RenderTextureDescriptor textureDescriptor = renderingData.cameraData.cameraTargetDescriptor</code>来获取相机渲染纹理设置，用于创建用于渲染的中间相机纹理</p>
+<h5 id="RenderTargetHandle和RTHandle"><a href="#RenderTargetHandle和RTHandle" class="headerlink" title="RenderTargetHandle和RTHandle"></a>RenderTargetHandle和RTHandle</h5><p>Unity在Upgrading to URP 13 (Unity 2022.1)时，推出了RTHandle系统。RenderTargetHandle已经过时，并且在将来会移除。但是现在能够找到的教程很多还在使用RendertaegetHandle，所以也一并记录一下。</p>
+<p>作用：用来存储RenderTexture信息</p>
+<p>RTHandle是在<a href="https://link.zhihu.com/?target=https://docs.unity3d.com/ScriptReference/RenderTexture.html">RenderTexture</a>API基础上的抽象，其大小会随相机尺寸自动调整，使得在渲染过程中使用不同尺寸的相机时，可以正确地重用渲染纹理内存。</p>
+<p>下面是官方给出的新旧API的对比</p>
+<p>在旧API中使用的是CommandBuffer.GetTemporaryRT()，该函数不仅申请了一个临时rt，同时还将该rt与第一个参数”nameID”所代表的全局的ShaderProperty进行了绑定，也就是说之后的shader都可以用与nameID对应的名称使用该rt。</p>
+<blockquote>
+<p>官方的urp渲染管线中，CopyColorPass就是用该函数将”_CameraColorTexture”这个纹理拷贝到临时rt中供之后的shader使用。</p>
+</blockquote>
+<p>而新API中使用的是RenderingUtils.ReAllocateIfNeeded()方法进行创建，在Clear时其值等于null进行释放。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Old API</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraSetup</span>(<span class="params">CommandBuffer cmd, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> desc = renderingData.cameraData.cameraTargetDescriptor;</span><br><span class="line">        cmd.GetTemporaryRT(m_Handle.id, desc, FilterMode.Point);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraCleanup</span>(<span class="params">CommandBuffer cmd</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        cmd.ReleaseTemporaryRT(m_Handle.id);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line"><span class="comment">//New API</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraSetup</span>(<span class="params">CommandBuffer cmd, <span class="keyword">ref</span> RenderingData renderingData</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> desc = renderingData.cameraData.cameraTargetDescriptor;</span><br><span class="line">        <span class="comment">// Then using RTHandles, the color and the depth properties must be separate</span></span><br><span class="line">        desc.depthBufferBits = <span class="number">0</span>;</span><br><span class="line">        RenderingUtils.ReAllocateIfNeeded(<span class="keyword">ref</span> m_Handle, desc, FilterMode.Point,</span><br><span class="line">                                         TextureWrapMode.Clamp, name: <span class="string">&quot;_CustomPassHandle&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnCameraCleanup</span>(<span class="params">CommandBuffer cmd</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        m_DestinationColor = <span class="literal">null</span>;</span><br><span class="line">        m_DestinationDepth = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="RenderTextureDescriptor"><a href="#RenderTextureDescriptor" class="headerlink" title="RenderTextureDescriptor"></a>RenderTextureDescriptor</h5><p>作用：提供创建RenderTexture的所需要的相关信息，包括width、height、msaaSamples等信息。</p>
+<p>其中graphicsFormat、depthStencilFormat所使用的枚举类型GraphicsFormat需要引入命名空间：using UnityEngine.Experimental.Rendering;</p>
+<p>有时SetGlobalTexture时，存入的图为纯黑或者纯白（Renderdoc截帧），可能是由于RenderTextureDescriptor格式导致的问题，需要把graphicsFormat、depthStencilFormat、depthBufferBits设置成所需要的格式。</p>
+<h5 id="ScriptableRenderContext"><a href="#ScriptableRenderContext" class="headerlink" title="ScriptableRenderContext"></a>ScriptableRenderContext</h5><p>作用：定义自定义渲染管线使用的状态和绘制命令。定义自定义<a href="https://link.zhihu.com/?target=https://docs.unity3d.com/cn/2020.2/ScriptReference/Rendering.RenderPipeline.html">RenderPipeline</a>时，可使用 ScriptableRenderContext向GPU调度和提交状态更新和绘制命令。</p>
+<p>其中常用的有：</p>
+<ul>
+<li><code>public void ExecuteCommandBuffer(CommandBuffer commandBuffer);</code></li>
+</ul>
+<p>调度渲染指令使用 ScriptableRenderContext.ExecuteCommandBuffer将 CommandBuffers 传递到 ScriptableRenderContext</p>
+<ul>
+<li><p><code>public void DrawRenderers(CullingResults cullingResults, ref DrawingSettings drawingSettings, ref FilteringSettings filteringSettings);</code></p>
+<p>开始绘制渲染，基于定义的设置，调度命令绘制几何体</p>
+</li>
+</ul>
+<h5 id="FilteringSettings"><a href="#FilteringSettings" class="headerlink" title="FilteringSettings"></a>FilteringSettings</h5><p>作用：过滤出符合条件的物体。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//过滤出位于不透明队列中且层级为layerMask的物体，</span></span><br><span class="line">FilteringSettings filteringSettings = <span class="keyword">new</span> FilteringSettings(RenderQueueRange.opaque, layerMask);</span><br></pre></td></tr></table></figure>
+
+<h5 id="ShaderTagId"><a href="#ShaderTagId" class="headerlink" title="ShaderTagId"></a>ShaderTagId</h5><p>URP有很多内置标签<a target="_blank" rel="noopener" href="https://docs.unity3d.com/cn/Packages/com.unity.render-pipelines.universal@12.1/manual/urp-shaders/urp-shaderlab-pass-tags.html">URP ShaderLab Pass 标签 | Universal RP | 12.1.1 (unity3d.com)</a></p>
+<p>在建立ShaderTagId列表时可以对照上面的标签进行以下初始化</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">shaderTagIdList = <span class="keyword">new</span> List&lt;ShaderTagId&gt;()</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;UniversalForward&quot;</span>),</span><br><span class="line">	<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;UniversalForwardOnly&quot;</span>),</span><br><span class="line">	<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;LightweightForward&quot;</span>),</span><br><span class="line">	<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;SRPDefoultUnlit&quot;</span>),</span><br><span class="line">	<span class="keyword">new</span> ShaderTagId(<span class="string">&quot;DepthOnly&quot;</span>)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>shaderTagsList指的是Shader代码中Pass中的”Lightmode”Tag。渲染管线通过Lightmode决定使用哪一个Pass绘制物体。</p>
+<h5 id="ConfigureTarget"><a href="#ConfigureTarget" class="headerlink" title="ConfigureTarget()"></a>ConfigureTarget()</h5><p>为当前pass配置需要渲染的目标（RT）</p>
+<p>新API和旧API中均使用这个函数，但是在新API中<code> ConfigureTarget(RTHandle, RTHandle)</code>，旧API中为<code>ConfigureTarget(RenderTargetIdentifier colorAttachment)</code></p>
+<h5 id="CommandBuffer"><a href="#CommandBuffer" class="headerlink" title="CommandBuffer"></a>CommandBuffer</h5><p>作用：创建新的空命令缓冲区。</p>
+<p>在旧版本中用于可编程渲染管线的各种纹理复制等操作，在新API中，纹理复制操作被封装进Blitter方法中。</p>
+<h5 id="DrawingSettings"><a href="#DrawingSettings" class="headerlink" title="DrawingSettings"></a>DrawingSettings</h5><p>是ScriptableRenderContext.DrawRenderers的设置。</p>
+<p>DrawingSettings 描述如何对可见对象进行排序 以及要使用的着色器传递 。</p>
+<p>DrawingSettings可通过CreateDrawingSettings()方法进行创建</p>
+<h5 id="Blitter"><a href="#Blitter" class="headerlink" title="Blitter"></a>Blitter</h5><p>Blitter用于可编程渲染管线的各种纹理复制。</p>
+<p>在渲染时，需要确保不会读取和写入相同的纹理或者目标，因为这可能会导致“意外行为”。所以需要创建临时渲染纹理进行过度。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Blitter.BlitCameraTexture(cmd, rtCamera, rtTemp);</span><br><span class="line">Blitter.BlitCameraTexture(cmd, rtTemp, rtCamera);</span><br></pre></td></tr></table></figure>
+
+                    
+                      <div id="toc-article">
+                        
+  <div class="widget-wrap" id="toc-wrap">
+    <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
+    <div class="widget">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFRenderFeature"><span class="toc-text">什么是RenderFeature</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Render-Feature-%E4%BB%A3%E7%A0%81%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="toc-text">Render Feature 代码基本结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Renderer-Texture"><span class="toc-text">Renderer Texture</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RenderPass"><span class="toc-text">RenderPass</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#RenderPassEvent"><span class="toc-text">RenderPassEvent</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RenderingData"><span class="toc-text">RenderingData</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RenderTargetHandle%E5%92%8CRTHandle"><span class="toc-text">RenderTargetHandle和RTHandle</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#RenderTextureDescriptor"><span class="toc-text">RenderTextureDescriptor</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ScriptableRenderContext"><span class="toc-text">ScriptableRenderContext</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#FilteringSettings"><span class="toc-text">FilteringSettings</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ShaderTagId"><span class="toc-text">ShaderTagId</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#ConfigureTarget"><span class="toc-text">ConfigureTarget()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CommandBuffer"><span class="toc-text">CommandBuffer</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#DrawingSettings"><span class="toc-text">DrawingSettings</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Blitter"><span class="toc-text">Blitter</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </div>
+
+
+                      </div>
+                      
+                        
+                            
+          </div>
+          <footer class="article-footer">
+            
+                  <div class="article-tag-wrap">
+                    
+
+                      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
+
+                        
+
+
+                  </div>
+                  
+                    
+                      
+<nav id="article-nav">
+  
+    <a href="/2024/03/31/UnityShader%E6%B8%B2%E6%9F%93%E5%A4%A9%E7%A9%BA%E4%BA%91%E4%BD%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">older</strong>
+      <div class="article-nav-title">
+        
+          UnityShader渲染天空云体
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+                        
+                          
+                            
+
+
+
+
+
+
+
+
+                              
+          </footer>
+  </div>
+</article></section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-posts"></i> Recent</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/04/11/Unity-RendererFeature-%E7%AC%94%E8%AE%B0/">Unity RendererFeature 笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/31/UnityShader%E6%B8%B2%E6%9F%93%E5%A4%A9%E7%A9%BA%E4%BA%91%E4%BD%93/">UnityShader渲染天空云体</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/19/MUSIC-TRANSFORMER-%E8%A7%A3%E8%AF%BB/">MUSIC TRANSFORMER 解读</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/10/Transformer%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3/">Transformer初步了解</a>
+          </li>
+        
+          <li>
+            <a href="/2024/03/02/Sobel%E5%AF%B9%E5%9B%BE%E7%89%87%E7%9A%84%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B/">Sobel对图片的边缘检测</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/AI/" style="font-size: 20px;">AI</a> <a href="/tags/Art/" style="font-size: 10px;">Art</a> <a href="/tags/Unity/" style="font-size: 16.67px;">Unity</a> <a href="/tags/Unity-Shader/" style="font-size: 13.33px;">Unity Shader</a> <a href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" style="font-size: 10px;">虚拟现实</a> <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" style="font-size: 10px;">计算机视觉</a>
+    </div>
+  </div>
+
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-archive"></i> Archive</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/">2024年</a><span class="archive-list-count">8</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023年</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/">2022年</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title"><i class="fa fa-tag"></i> Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AI/" rel="tag">AI</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Art/" rel="tag">Art</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity-Shader/" rel="tag">Unity Shader</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%99%9A%E6%8B%9F%E7%8E%B0%E5%AE%9E/" rel="tag">虚拟现实</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/" rel="tag">计算机视觉</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+</aside>
+        
+      </div>
+      <a id="totop" href="#top"></a>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      <p>
+        <a href="/sitemap.xml">Site Map</a>
+        <span> | </span><a href="/atom.xml">Subscribe to this site</a>
+        <span> | </span><a href="/about/">Contact the blogger</a>
+      </p>
+      
+        <p>
+          <i class="fa fa-visitors"></i>
+          <i id="busuanzi_container_site_uv"><i id="busuanzi_value_site_uv"></i></i>
+          ，
+          <i class="fa fa-views"></i>
+          <i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>
+        </p>
+      
+      <p>
+        <span>Copyright &copy; 2024 Rainbit.</span>
+        <span>Theme by <a href="https://github.com/chaooo/hexo-theme-BlueLake/" target="_blank">BlueLake.</a></span>
+        <span>Powered by <a href="https://hexo.io/" target="_blank">Hexo.</a></span>
+      </p>
+    </div>
+  </div>
+</footer>
+
+    </div>
+  </div>
+  
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+<script src="/js/search.json.js"></script>
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+
+  
+<script src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+  <script src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML" async type="text/javascript"></script>
+
+</body>
+</html>
