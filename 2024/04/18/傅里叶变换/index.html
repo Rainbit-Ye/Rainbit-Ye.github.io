@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   
   
-  <title>Unity内屏幕UI光标实时跟踪NPC | 当兵的纸兔子</title>
+  <title>傅里叶变换 | 当兵的纸兔子</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
     <meta name="description" content="只要是艺术，无论什么都感兴趣！！">
@@ -82,7 +82,7 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-U3D内屏幕UI光标实时跟踪NPC" class="h-entry article article-type-post"
+        <section id="main"><article id="post-傅里叶变换" class="h-entry article article-type-post"
   itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-inner">
     
@@ -91,7 +91,7 @@
           
   
     <h1 class="p-name article-title" itemprop="headline name">
-      Unity内屏幕UI光标实时跟踪NPC
+      傅里叶变换
     </h1>
   
 
@@ -102,7 +102,7 @@
             
                 <span class="article-date">
   <i class="fa fa-date"></i>
-  <time class="dt-published" datetime="2023-04-02T03:55:51.000Z" itemprop="datePublished">2023年04月02日</time>
+  <time class="dt-published" datetime="2024-04-18T02:45:12.000Z" itemprop="datePublished">2024年04月18日</time>
 </span>
                   
                     
@@ -115,7 +115,7 @@
 
                         
                           
-<a href="/2023/04/02/U3D%E5%86%85%E5%B1%8F%E5%B9%95UI%E5%85%89%E6%A0%87%E5%AE%9E%E6%97%B6%E8%B7%9F%E8%B8%AANPC/#comments" class="article-comment-link">
+<a href="/2024/04/18/%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2/#comments" class="article-comment-link">
   
     
     
@@ -131,18 +131,68 @@
           </div>
           <div class="e-content article-entry" itemprop="articleBody">
             
-                  <h2 id="项目需求"><a href="#项目需求" class="headerlink" title="项目需求"></a>项目需求</h2><p>在开发项目过程中，遇到需要实现根据当前事件来触发游戏UI的跟踪提示，从而指引玩家获得更好的游戏体验。<br>采用了相当简单粗暴的方式进行判断和实现</p>
+                  <p>傅里叶变换是高数上一个难点，同时也是计算机视觉等相关领域一个很常用的算法。</p>
+<p>最近主要在思考如何检测出音乐的关键鼓点，所以对傅里叶变换进行学习和记录整理</p>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/317237264">通俗易懂的理解傅里叶变换（一）</a>、<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1pW411J7s8/?spm_id_from=333.337.search-card.all.click&vd_source=74f8b74c356125fe302993b2b44a4479">3b1b-形象展示傅里叶变换</a></p>
 <span id="more"></span>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (arrow)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax &amp;&amp; screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &lt;= area.xMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMin, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &lt;= area.yMin)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMin, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt;= area.xMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(area.xMax, screenPoint.y, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.y &gt;= area.yMax)</span><br><span class="line">        arrow.position = <span class="keyword">new</span> Vector3(screenPoint.x, area.yMax, arrow.position.z);</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (screenPoint.x &gt; area.xMin &amp;&amp; screenPoint.x &lt; area.xMax &amp;&amp; screenPoint.y &gt; area.yMin &amp;&amp; screenPoint.y &lt; area.yMax)</span><br><span class="line">        arrow.position = screenPoint;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>通过判断是否在UI屏幕的内部从而实现固定UI屏幕内。<br>其中<code>arrow</code>为光标指示UI，<code>area</code>为Rect类型，从而限定大小<br>通过判断屏幕周围8个区域的x，y值进行与光标指示UI进行比较，将UI固定在屏幕内。</p>
-<p>通过给NPC加入标签，开Star()函数中进行初始化，获取NPC的信息数据。在Update()中调用方法通过判定是否是当前图标所要追踪的NPC从而实现实时追踪</p>
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Start</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    player = GameObject.FindWithTag(<span class="string">&quot;Player&quot;</span>).GetComponent&lt;PlayerMessage&gt;();</span><br><span class="line">    arrowImg = arrow.GetComponent&lt;Image&gt;();</span><br><span class="line">    npcMessages = GameObject.FindGameObjectsWithTag(<span class="string">&quot;NPC&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="频域和时域"><a href="#频域和时域" class="headerlink" title="频域和时域"></a>频域和时域</h3><h4 id="1、时域"><a href="#1、时域" class="headerlink" title="1、时域"></a>1、时域</h4><p>概念：自变量是时间,即横轴是时间,纵轴是信号的变化。其动态信号x（t）是描述信号在不同时刻取值的函数。很像高中所接触到的三角函数</p>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/时域.png" width="800" title="时域"></div>
+</center>
 
-<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Update</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; npcMessages.Length; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> (player.missionState == (<span class="built_in">int</span>)npcMessages[i].GetComponent&lt;NPCMessage&gt;().NpcType)</span><br><span class="line">        &#123;</span><br><span class="line">            ArrowDis(npcMessages[i].transform);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在时域图中，横轴是时间，纵轴是振幅。时域图显示振幅随时间的变化</p>
+<h4 id="2、频域"><a href="#2、频域" class="headerlink" title="2、频域"></a>2、频域</h4><p>概念：自变量是频率,即横轴是频率,纵轴是该频率信号的幅度,也就是通常说的频谱图。只能表现出振幅和频率，不显示随时间的变化。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/频域.png" width="800" title="频域"></div>
+</center>
 
-<p><img src="/../img/NPCArrow.gif" alt="菱形UI跟随NPC狐狸模型"></p>
-<p>最终可以初步实现效果，但是代码还是过于简单粗暴，需要改进细化，并且在追踪识别NPC过程中会出现当玩家180度背对NPC时，UI追踪光标仍然会追踪到屏幕对应的位置。<br>先记录下来bug，会对其进行修改。</p>
+<p>而从频域的角度来看一件事，可能万事万物都是静止的（更加形象的解释在参考资料中有说明，真的很通俗易懂！）</p>
+<h3 id="傅里叶频谱"><a href="#傅里叶频谱" class="headerlink" title="傅里叶频谱"></a>傅里叶频谱</h3><p>将频域和时域放在一起可以看到如下图所示。其中y轴是频率。黑色的波形由无数个不同频率的正弦波叠加而成。</p>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/频域和时域.png" width="500" title="频域"></div>
+</center>
+
+<p>仔细观察不难发现在每条正弦滤波之间都有一条横线，是正弦频率为0的正弦波。如果我们将一个角频率为$\omega_0$的正弦波$cos（\omega_0t）$看作基础，那么频域的基本单元就是$\omega_0$。$cos（0t）$就是一个周期无限长的正弦波，也就是一条直线，所以在频域，0频率也被称为直流分量，在傅里叶级数的叠加中，它仅仅影响全部波形相对于数轴整体向上或是向下而不改变波的形状。</p>
+<h3 id="傅里叶的相位谱"><a href="#傅里叶的相位谱" class="headerlink" title="傅里叶的相位谱"></a>傅里叶的相位谱</h3><p>在基础的正弦波：$Asin(\omega x+\theta)$，A是振幅，$\omega$是频率，$\theta$是相位，在前面的图中已经提到了振幅和频率，现在就该轮到相位了。</p>
+<p>那么相位谱应该怎么看呢？</p>
+<p>摘抄一下参考资料原文解释：</p>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/相位.bmp" width="300" title="相位域"></div>
+</center>
+
+<blockquote>
+<p>这张图猛地一看有点抽象，它需要我们从”下面”来看，鉴于正弦波是周期的，我们需要设定一个用来标记正弦波位置的东西。在图中就是那些小红点。小红点是距离频率轴最近的波峰，而这个波峰所处的位置离频率轴有多远呢？为了看的更清楚，我们将红色的点投影到下平面，投影点我们用粉色点来表示。当然，这些粉色的点只标注了波峰距离频率轴的距离，并不是相位。</p>
+</blockquote>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/相位1.bmp" width="300" title="相位域"></div>
+</center>
+
+<blockquote>
+<p>这里需要纠正一个概念：时间差并不是相位差。如果将全部周期看作2Pi或者360度的话，相位差则是时间差在一个周期中所占的比例。我们将时间差除周期再乘2Pi，就得到了相位差。</p>
+</blockquote>
+<blockquote>
+<p>在完整的立体图中，我们将投影得到的时间差依次除以所在频率的周期，就得到了最下面的相位谱。所以，频谱是从侧面看，相位谱是从下面看。</p>
+<p>注意到，相位谱中的相位除了0，就是$\pi$。因为cos（t+$\pi$）&#x3D;-cos（t），所以实际上相位为Pi的波只是上下翻转了而已。对于周期方波的傅里叶级数，这样的相位谱已经是很简单的了。另外值得注意的是，由于cos（t+2$\pi$）&#x3D;cos（t），所以相位差是周期的，pi和3$\pi$，5$\pi$，7$\pi$都是相同的相位。人为定义相位谱的值域为(-pi，pi]，所以图中的相位差均为Pi。</p>
+</blockquote>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/相位2.bmp" width="300" title="相位域"></div>
+</center>
+
+<h3 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h3><p>傅里叶级数的本质是将一个周期的信号分解成无限多分开的（离散的）正弦波。其在时域是一个周期且连续的函数，而在频域是一个非周期离散的函数，而傅里叶变换则是将一个时域非周期的连续信号转换为频域非周期的连续信号，如图所示</p>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/傅里叶.bmp" width="500" title="傅里叶"></div>
+</center>
+
+<h3 id="欧拉公式"><a href="#欧拉公式" class="headerlink" title="欧拉公式"></a>欧拉公式</h3><p>虚数概念$i^2&#x3D;-1$ 在高中就有接触过，现在引入一种新的思维方式，一个向量A(1,0)乘上-1后变为A’(-1,0)，或许可以理解-1使得这个向量A旋转了180度，再结合虚数概念，可以理解为$i^2$使得A旋转了180°，那么如果是A乘上一个i，由此可以推出是旋转90°。因此可以得到 乘虚数可以实现旋转</p>
+<p>结合欧拉公式<br>$$<br>e^{ix} &#x3D; cosx+isinx<br>$$<br>在时间轴上可以获得以下图片</p>
+<center>
+<div style="display:inline-block"><img src="/../img/fft/欧拉.bmp" width="500" title="欧拉公式表示图"></div>
+</center>
+
+<blockquote>
+<p>欧拉公式所描绘的，是一个随着时间变化，在复平面上做圆周运动的点，随着时间的改变，在时间轴上就成了一条螺旋线。如果只看它的实数部分，也就是螺旋线在左侧的投影，就是一个最基础的余弦函数。而右侧的投影则是一个正弦函数。</p>
+</blockquote>
 
                     
                       <div id="toc-article">
@@ -150,7 +200,7 @@
   <div class="widget-wrap" id="toc-wrap">
     <h3 class="widget-title"><i class="fa fa-toc"></i> Contents</h3>
     <div class="widget">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E9%9C%80%E6%B1%82"><span class="toc-text">项目需求</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%91%E5%9F%9F%E5%92%8C%E6%97%B6%E5%9F%9F"><span class="toc-text">频域和时域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E6%97%B6%E5%9F%9F"><span class="toc-text">1、时域</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E9%A2%91%E5%9F%9F"><span class="toc-text">2、频域</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%82%85%E9%87%8C%E5%8F%B6%E9%A2%91%E8%B0%B1"><span class="toc-text">傅里叶频谱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%82%85%E9%87%8C%E5%8F%B6%E7%9A%84%E7%9B%B8%E4%BD%8D%E8%B0%B1"><span class="toc-text">傅里叶的相位谱</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%82%85%E9%87%8C%E5%8F%B6%E5%8F%98%E6%8D%A2"><span class="toc-text">傅里叶变换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A7%E6%8B%89%E5%85%AC%E5%BC%8F"><span class="toc-text">欧拉公式</span></a></li></ol>
     </div>
   </div>
 
@@ -166,7 +216,7 @@
                     
 
                       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
 
                         
 
@@ -177,24 +227,15 @@
                       
 <nav id="article-nav">
   
-    <a href="/2023/03/04/%E7%AB%8B%E7%BB%98%E5%B9%B2%E8%B4%A7/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2024/04/11/Unity-RendererFeature-%E7%AC%94%E8%AE%B0/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">older</strong>
       <div class="article-nav-title">
         
-          立绘干货
+          Unity RendererFeature 笔记
         
       </div>
     </a>
   
-  
-    <a href="/2023/04/12/Unity-Shader-%E6%A8%A1%E6%9D%BF%E6%A3%80%E6%B5%8B-%E7%AC%BC%E4%B8%AD%E7%AA%A5%E6%A2%A6/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">newer</strong>
-      <div class="article-nav-title">
-        
-          Unity Shader 模板测试 笼中窥梦
-        
-      </div>
-    </a>
   
 </nav>
 
